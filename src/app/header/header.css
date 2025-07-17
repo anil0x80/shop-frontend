@@ -144,11 +144,12 @@
   cursor: pointer;
   padding: 0;
   gap: 10px;
+  padding: 8px;
+  border-radius: 8%;
 }
 
 .cart-button:hover {
   background-color: #f3f3f3;
-  border-radius: 8px;
 }
 
 .profile-button{
@@ -182,6 +183,7 @@
   cursor: pointer;
   color: rgb(103, 103, 103);
   border: transparent;
+  border-radius: 10%;
 }
 
 .navigation-button:hover{
