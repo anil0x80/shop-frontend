@@ -1,6 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {FormControl, ReactiveFormsModule,FormGroup,FormBuilder} from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,8 +11,9 @@ import {FormControl, ReactiveFormsModule,FormGroup,FormBuilder} from '@angular/f
   styleUrl: './header.css'
 })
 export class Header {
-  isSigned = true;
-  formBuilder = inject(FormBuilder)
+  private router = inject(Router)
+  private formBuilder = inject(FormBuilder)
+  isSigned = false;
   username = "Anıl";
 
   searchForm = this.formBuilder.group({
@@ -23,5 +25,8 @@ export class Header {
 
   onSubmit(){
     console.log(this.searchForm.value.search)
+  }
+  reDirect(route:string){
+    this.router.navigate([route])
   }
 }

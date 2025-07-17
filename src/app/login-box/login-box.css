@@ -1,0 +1,59 @@
+.container{
+    display: grid;
+    background-color: #f9f9f9;
+    width: 400px;
+    height: 300px;
+    justify-content: center;
+    align-content: center;
+    border-radius: 5%;
+}
+.sign-in-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+.login-form{
+    display: grid;
+    gap: 10px;
+    width: 300px;
+}
+
+.login-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+.password-container{
+    position: relative;
+    display: flex;
+    align-items: center;;
+}
+.password-container input {
+    width: 100%;
+    padding-right: 40px; /* Make space for the toggle button */
+}
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+}
+.sign-in-button{
+    background-color: #00b300;
+    color: white;
+    font-weight: 200;
+    padding: 5px;
+    border: transparent;
+    border-radius: 8px;
+}

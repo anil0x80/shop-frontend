@@ -34,17 +34,17 @@
     }
     @else {
         <div class="sign">
-        <button class="sign-button">Sign In</button>
+        <button class="sign-button" (click)="reDirect('/sign-in')">Sign In</button>
         <p style="color: rgb(164, 164, 164); margin: 0 6px;">/</p>
-        <button class="sign-button">Sign Up</button>
+        <button class="sign-button" (click)="reDirect('/sign-up')">Sign Up</button>
         </div>
     }
     
   </div>
 </div>
   <div class="navigation-bar">
-    <button class="navigation-button">Home</button>
-    <button class="navigation-button">Categories</button>
+    <button class="navigation-button" (click)="reDirect('/')">Home</button>
+    <button class="navigation-button" (click)="reDirect('/Categories')">Categories</button>
   </div>
 </div>
 
