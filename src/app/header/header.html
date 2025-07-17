@@ -1,0 +1,50 @@
+<div class="top-bar">
+<div class="container">
+  <div><p class="site-name">VETRA</p>
+  </div>
+   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-container">
+    <div class="search-input-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search" formControlName="search"/>
+    </div>
+    <button type="submit" class="search-button">Search</button>
+  </form>
+  
+
+  <div class="header-right">
+    <!-- Shopping Cart as Button -->
+    <button class="cart-button">
+      <div class="cart-icon-wrapper">
+        <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 6h15l-1.5 9h-13z"/>
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="18" cy="21" r="1"/>
+        </svg>
+        <span class="cart-badge">{{cartItemsCount}}</span>
+      </div>
+      <div class="cart-text">
+        <p class="cart-label">Shopping cart:</p>
+        <p class="cart-total">{{ cartTotalPrice | currency:'USD':'code' }}</p>
+      </div>
+    </button>
+
+    <!-- Sign In / Up -->
+    @if (isSigned) {
+        <button class="profile-button">{{username}}</button>
+    }
+    @else {
+        <div class="sign">
+        <button class="sign-button">Sign In</button>
+        <p style="color: rgb(164, 164, 164); margin: 0 6px;">/</p>
+        <button class="sign-button">Sign Up</button>
+        </div>
+    }
+    
+  </div>
+</div>
+  <div class="navigation-bar">
+    <button class="navigation-button">Home</button>
+    <button class="navigation-button">Categories</button>
+  </div>
+</div>
+
