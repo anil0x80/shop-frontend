@@ -4,7 +4,7 @@
   </div>
    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-container">
     <div class="search-input-wrapper">
-      <span class="search-icon">🔍</span>
+      <mat-icon>search</mat-icon>
       <input type="text" placeholder="Search" formControlName="search"/>
     </div>
     <button type="submit" class="search-button">Search</button>
@@ -15,11 +15,7 @@
     <!-- Shopping Cart as Button -->
     <button class="cart-button">
       <div class="cart-icon-wrapper">
-        <svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M6 6h15l-1.5 9h-13z"/>
-          <circle cx="9" cy="21" r="1"/>
-          <circle cx="18" cy="21" r="1"/>
-        </svg>
+        <mat-icon class="cart-icon">shopping_cart</mat-icon>
         <span class="cart-badge">{{cartItemsCount}}</span>
       </div>
       <div class="cart-text">
