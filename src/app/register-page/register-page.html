@@ -4,7 +4,7 @@
     <p class="sign-up-text">Sign Up</p>
     <input type="text" formControlName="username" name="username" placeholder="Username"/>
     <input type="password" formControlName="password" name="password" placeholder="Password"
-    [ngClass]="{'ng-touched ng-invalid': hasAnyPasswordError()}"/>
+    [ngClass]="{'ng-invalid': hasAnyPasswordError()}"/>
     <!-- mark input as invalid if it password mismatch exists -->
 
     @if (hasPasswordWeakError()){
@@ -12,7 +12,7 @@
     }
       
     <input type="password" formControlName="repeated_password" name="repeated_password" placeholder="Repeat Password"
-    [ngClass]="{'ng-touched ng-invalid': hasAnyPasswordError()}"/>
+    [ngClass]="{'ng-invalid': hasAnyPasswordError()}"/>
     <!-- mark input as invalid if it password mismatch exists -->
 
     @if (hasPasswordMismatchError()){

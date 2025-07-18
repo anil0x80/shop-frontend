@@ -59,11 +59,13 @@ export class RegisterPage {
   }
 
   hasPasswordMismatchError(){
-    return this.registerForm.hasError(PasswordError.Mismatch) && this.repeated_password.touched;
+    return this.registerForm.hasError(PasswordError.Mismatch) && 
+    (this.repeated_password.touched || this.repeated_password.dirty);
   }
 
   hasPasswordWeakError() {
-    return this.password.hasError(PasswordError.Strength) && this.password.touched;
+    return this.password.hasError(PasswordError.Strength) &&
+    (this.password.touched || this.password.dirty);
   }
 
   hasAnyPasswordError() {
