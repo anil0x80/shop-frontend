@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './product-card.css'
 })
 export class ProductCard {
-    private router = inject(Router)
+  private router = inject(Router)
 
   product = input<Product>({
     product_id: '1',
@@ -31,7 +31,7 @@ export class ProductCard {
   }
 
   addProductToCart(event:MouseEvent){
-   event.stopPropagation();
+    event.stopPropagation();
     //TODO
     console.log("xd")
   }

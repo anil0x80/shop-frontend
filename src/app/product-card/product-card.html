@@ -6,8 +6,6 @@
       <p class="product-name">{{ product().product_name }}</p>
       <p class="product-price">{{ product().price | currency:'USD':'code' }}</p>
     </div>
-
-    <!-- Only this remains a real button -->
     <button class="cart-button" (click)="addProductToCart($event)">
       <mat-icon>shopping_cart</mat-icon>
     </button>
