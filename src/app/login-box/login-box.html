@@ -7,8 +7,12 @@
         <div class="password-container">
             <input type={{inputType}} formControlName="password" placeholder="Password">
             <button (click)="togglePassword()" class="password-toggle">
-                @if (showPassword) {<span class="material-icons">visibility</span>}
-                @else {  <span class="material-icons">visibility_off</span>}
+                @if (showPassword) {
+                    <mat-icon>visibility</mat-icon>
+                }
+                @else {
+                    <mat-icon class="password-icon">visibility_off</mat-icon>
+                }
             </button>
         </div>
         

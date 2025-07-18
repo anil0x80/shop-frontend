@@ -33,21 +33,19 @@
 }
 .password-container input {
     width: 100%;
-    padding-right: 40px; /* Make space for the toggle button */
+    padding-right: 40px; 
 }
 .password-toggle {
     position: absolute;
-    right: 12px;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
 }
 .sign-in-button{
     background-color: #00b300;
