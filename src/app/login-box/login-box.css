@@ -12,13 +12,13 @@
     font-weight: bold;
     font-size: x-large;
 }
-.login-form{
+.sign-in-form{
     display: grid;
     gap: 10px;
     width: 300px;
 }
 
-.login-form input {
+.sign-in-form input {
     padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -56,4 +56,14 @@
     padding: 5px;
     border: transparent;
     border-radius: 8px;
+    cursor: pointer;
+}
+.sign-in-button:hover{
+    background-color: #009900;
+}
+
+.sign-in-button:disabled {
+    background-color: gray;      
+    cursor: not-allowed;         
+    opacity: 0.6;                
 }

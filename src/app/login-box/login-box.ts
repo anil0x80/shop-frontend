@@ -1,9 +1,11 @@
 import { Component,inject } from '@angular/core';
 import { ReactiveFormsModule,FormBuilder, Validators } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-login-box',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,MatIconModule],
   templateUrl: './login-box.html',
   styleUrl: './login-box.css'
 })
@@ -13,7 +15,7 @@ export class LoginBox {
   showPassword = false;
   inputType = "password"
 
-  loginForm = this.formBuilder.group({
+  signInForm = this.formBuilder.group({
     username:['',Validators.required],
     password:['',Validators.required]
   })
