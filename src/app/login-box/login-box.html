@@ -1,0 +1,21 @@
+
+<div class="container">
+    
+    <form [formGroup]="signInForm" class="sign-in-form">
+        <p class="sign-in-text">Sign In</p>
+        <input type="text" formControlName="username" placeholder="Username">
+        <div class="password-container">
+            <input type={{inputType}} formControlName="password" placeholder="Password">
+            <button (click)="togglePassword()" class="password-toggle">
+                @if (showPassword) {
+                    <mat-icon>visibility</mat-icon>
+                }
+                @else {
+                    <mat-icon class="password-icon">visibility_off</mat-icon>
+                }
+            </button>
+        </div>
+        
+        <button type="submit" class="sign-in-button" [disabled]="signInForm.invalid">Sign In</button>
+    </form>
+</div>

@@ -1,0 +1,7 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px); /* Adjust 80px to your header height */
+  background-color: #f5f5f5;
+}

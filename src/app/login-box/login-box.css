@@ -1,0 +1,67 @@
+.container{
+    display: grid;
+    background-color: #f9f9f9;
+    width: 400px;
+    height: 300px;
+    justify-content: center;
+    align-content: center;
+    border-radius: 5%;
+}
+.sign-in-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+.sign-in-form{
+    display: grid;
+    gap: 10px;
+    width: 300px;
+}
+
+.sign-in-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+.password-container{
+    position: relative;
+    display: flex;
+    align-items: center;;
+}
+.password-container input {
+    width: 100%;
+    padding-right: 40px; 
+}
+.password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sign-in-button{
+    background-color: #00b300;
+    color: white;
+    font-weight: 200;
+    padding: 5px;
+    border: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.sign-in-button:hover{
+    background-color: #009900;
+}
+
+.sign-in-button:disabled {
+    background-color: gray;      
+    cursor: not-allowed;         
+    opacity: 0.6;                
+}

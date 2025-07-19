@@ -1,0 +1,70 @@
+.container{
+    display: grid;
+    background-color: #f9f9f9;
+    width: 400px;
+    height: 300px;
+    justify-content: center;
+    align-content: center;
+    border-radius: 5%;
+}
+
+.register-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px); /* Adjust 80px to your header height */
+  background-color: #f5f5f5;
+}
+
+.sign-up-text{
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.register-form{
+    display: grid;
+    gap: 10px;
+    width: 300px;
+}
+
+.register-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+}
+
+.sign-up-button{
+    background-color: #00b300;
+    color: white;
+    font-weight: 200;
+    padding: 5px;
+    border: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sign-up-button:hover{
+    background-color: #009900;
+}
+
+.sign-up-button:disabled {
+    background-color: gray;      /* dim the color */
+    cursor: not-allowed;         /* shows a "not allowed" cursor */
+    opacity: 0.6;                /* make it look inactive */
+}
+
+.error-text {
+  color: #e74c3c;              /* a nice deep red */
+  font-size: 0.85rem;          /* slightly smaller than body text */
+  font-style: italic;          /* give it a little emphasis */
+  margin-top: 0.25rem;         /* space above the message */
+  display: block;              /* force it onto its own line */
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #e74c3c;       /* highlight the input itself when invalid */
+  box-shadow: 0 0 0 1px #e74c3c;
+}
