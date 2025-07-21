@@ -1,1 +1,16 @@
-<img src={{images()[0]}} alt="Product Image" class="product-image">
+<div class="image-slider-container">
+    <div class="image-slider">
+        <mat-icon class="slide-button-top"(click) = "scrollUp()">expand_less</mat-icon>
+        @for (image of visibleImages(); track $index) {
+            @if (images()[currentImageIndex()] == visibleImages()[$index]) {
+                <img src={{visibleImages()[$index]}} alt="side-image" class="side-image-selected" (click)="changeImage(visibleImages()[$index])">
+            }
+            @else {
+                <img src={{visibleImages()[$index]}} alt="side-image" class="side-image" (click)="changeImage(visibleImages()[$index])">
+            }
+            
+        }
+        <mat-icon class="slide-button-bottom" (click) = "scrollDown()">expand_more</mat-icon>
+    </div>
+    <img src={{images()[currentImageIndex()]}} alt="Product Image" class="product-image">
+</div>
