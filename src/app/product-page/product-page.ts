@@ -4,10 +4,11 @@ import { Product } from '../models/product.model';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { ImageSlider } from '../components/image-slider/image-slider';
+import { AddToCartButton } from "../components/add-to-cart-button/add-to-cart-button";
 
 @Component({
   selector: 'app-product-page',
-  imports: [CurrencyPipe,ImageSlider],
+  imports: [CurrencyPipe, ImageSlider, AddToCartButton],
   templateUrl: './product-page.html',
   styleUrl: './product-page.css'
 })

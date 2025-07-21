@@ -4,6 +4,15 @@
         <div class="product-details">
             <h1 class="product-name">{{product.product_name}}</h1>
             <h2 class="product-price">{{ product.price| currency:'USD':'code' }}</h2>
+            
+            <!-- this should be name in final version -->
+            <h3>{{product.category_id}}</h3> 
+
+            <p class = "product-description">{{product.description}}</p>
+
+            <!-- this element should take product id atleast -->
+             <p class="product-stock">Stock:{{product.stock}}</p>
+            <app-add-to-cart-button class="add-to-cart-button"></app-add-to-cart-button>
         </div>
         
         
