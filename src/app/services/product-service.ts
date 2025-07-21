@@ -11,7 +11,7 @@ export class ProductService {
     price: 100,
     description: 'This is a temporary product for testing purposes.',
     stock: 10,
-    image_url: 'https://picsum.photos/200',
+    images: ['https://picsum.photos/500'],
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     version: 1,

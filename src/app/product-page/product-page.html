@@ -1,1 +1,14 @@
-<p>product-page works!</p>
+@if (product) {
+    <div class = "product-page">
+        <app-image-slider [images]="product.images" ></app-image-slider>
+        <div class="product-details">
+            <h1 class="product-name">{{product.product_name}}</h1>
+            <h2 class="product-price">{{ product.price| currency:'USD':'code' }}</h2>
+        </div>
+        
+        
+    </div>
+}   
+@else{
+    <p>IT DOES NOT EXİST</p>
+}

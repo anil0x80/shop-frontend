@@ -1,0 +1,30 @@
+.product-page{
+    display: flex;
+    padding-left: 15%;
+    padding-right: 15%;
+    flex-direction: row;
+}
+.product-image{
+    max-width: 550px;
+    max-height: 550px;
+    width: 100%;
+    height: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    border-radius: 16px;
+}
+.product-details{
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.product-name{
+    font-size:36;
+    font-weight: 500;
+    line-height: 120%;
+}
+.product-price{
+    font-weight: 500;
+    font-size:24;
+    line-height: 150%;
+}
