@@ -1,0 +1,40 @@
+<div class="profile-page">
+<app-section-wrapper header="Change Password">
+  <form [formGroup]="changePasswordForm" class="change-password-form">
+    <div class="password-row-input">
+      <label for="currentPassword" class="input-label">Current Password</label>
+      <input type="password" formControlName="currentPassword" name="currentPassword"
+      id="currentPassword" placeholder="Password"/>
+    </div>
+
+    <div class="password-row">
+      <div class="password-row-input">
+        <label for="password" class="input-label">New Password</label>
+        <input type="password" formControlName="password" name="password"
+        id="password" placeholder="Password"
+        [ngClass]="{'ng-invalid': hasAnyPasswordError()}"/>
+        <!-- mark input as invalid if it password mismatch exists -->
+      </div>      
+    
+      <div class="password-row-input">
+        <label for="repeatedPassword" class="input-label">New Password</label>
+        <input type="password" formControlName="repeatedPassword" name="repeatedPassword" 
+         id="repeatedPassword" placeholder="Password"
+        [ngClass]="{'ng-invalid': hasAnyPasswordError()}"/>
+        <!-- mark input as invalid if it password mismatch exists -->
+      </div>
+    </div>
+   
+
+    @if (hasPasswordMismatchError()){
+      <span class="error-text">Passwords do not match</span>
+    }
+
+     @if (hasPasswordWeakError()){
+      <span class="error-text">Your password must have lower case, upper case and numeric characters and minimum of 6 characters.</span>
+    }
+
+    <button type="submit" class="change-password-button" (click)="onSignup()" [disabled]="!changePasswordForm.valid">Change Password</button>
+  </form>
+</app-section-wrapper>
+</div>
