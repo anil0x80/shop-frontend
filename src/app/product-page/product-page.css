@@ -1,0 +1,36 @@
+.product-page{
+    display: flex;
+    padding-left: 15%;
+    padding-right: 15%;
+    flex-direction: row;
+}
+.product-details{
+    position: relative;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.product-name{
+    font-size:36;
+    font-weight: 500;
+    line-height: 120%;
+}
+.product-price{
+    font-weight: 500;
+    font-size:24;
+    line-height: 120%;
+    color: #2C742F;
+}
+.product-description{
+    color: #7A997C;
+}
+.add-to-cart-button{
+    position: absolute;
+    bottom: 5%;
+}
+.product-stock{
+    color:  lightslategray;
+    position: absolute;
+    bottom: 15%;
+    left: 10%;
+}

@@ -18,7 +18,7 @@ export class ProductCard {
     price: 100,
     description: 'This is a temporary product for testing purposes.',
     stock: 10,
-    image_url: 'https://picsum.photos/200',
+    images: ['https://picsum.photos/200'],
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     version: 1,
@@ -26,8 +26,7 @@ export class ProductCard {
   });
 
   goToProductPage(){
-    this.router.navigate(['/']);//PlaceHolder
-    console.log("yuppi")
+    this.router.navigate(['/product', this.product().product_id]);
   }
 
   addProductToCart(event:MouseEvent){
