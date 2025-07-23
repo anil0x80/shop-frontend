@@ -11,7 +11,7 @@
   background-color: #f9f9f9;
   border-radius: 2.5%;
   padding: 10px;
-  border: 2px solid gainsboro;
+  border: 2px solid #E5E5E5;
   box-sizing: border-box;  /* so padding doesn’t push you over 600px */
 
   /* outline: 1px solid red;*/
@@ -20,7 +20,7 @@
 
 .my-hr-line {
     margin: 0px -10px 20px;
-    border-top: 1px solid #c9c7c7;  
+    border-top: 1px solid #E5E5E5;  
 }
 
 .section {
