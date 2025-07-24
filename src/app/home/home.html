@@ -1,1 +1,17 @@
-<app-product-card></app-product-card>
+<h1 class="site-description">Welcome to Vetra!</h1>
+@if (productsByCategory) {
+     @for (category of productsByCategory.keys(); track category.category_id) {
+        <div class="category-section">
+            <h2>{{category.category_name}}</h2>
+            <div class="products-container">
+                @let products = productsByCategory.get(category);
+                @for (product of products; track product.category_id) {
+                    <app-product-card [product]="product"></app-product-card>
+                }
+            </div>
+        </div>
+    }
+}
+@else {
+    <p>Error while loading products.Please refresh the page.</p>
+}
