@@ -5,7 +5,7 @@
             <h2>{{category.category_name}}</h2>
             <div class="products-container">
                 @let products = productsByCategory.get(category);
-                @for (product of products; track product.category_id) {
+                @for (product of products; track $index) {
                     <app-product-card [product]="product"></app-product-card>
                 }
             </div>
