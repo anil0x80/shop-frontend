@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Product } from '../models/product.model';
+import { Category } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +20,44 @@ export class ProductService {
     category_id: 'default-category'
    }//temp data 
   }
+  getProductsByCategory(category:Category){
+    const products:Product[] = [];
+    for (let  i = 0;  i< 7; i++) {
+      const element ={
+    product_id: "12",
+    product_name: 'Temporary Product',
+    price: 100,
+    description: 'This is a temporary product for testing purposes.',
+    stock: 10,
+    images: ['https://picsum.photos/500','https://picsum.photos/700','https://picsum.photos/600','https://picsum.photos/400','https://picsum.photos/300'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    version: 1,
+    category_id: category.category_id
+      }//temp data 
+    products.push(element)
+    };
+    return products;
+  }
+  
+  getRandomProductsByCategory(category:Category, amount:number){
+   const products:Product[] = [];
+    for (let  i = 0;  i< amount; i++) {
+      const element ={
+    product_id: "12",
+    product_name: 'Temporary Product',
+    price: 100,
+    description: 'This is a temporary product for testing purposes.',
+    stock: 10,
+    images: ['https://picsum.photos/500','https://picsum.photos/700','https://picsum.photos/600','https://picsum.photos/400','https://picsum.photos/300'],
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    version: 1,
+    category_id: category.category_id
+      }//temp data 
+    products.push(element)
+    };
+    return products;
+  }
+   
 }

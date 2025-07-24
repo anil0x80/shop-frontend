@@ -1,5 +1,5 @@
 import { Component, input ,inject} from '@angular/core';
-import { Product } from '../models/product.model';
+import { Product } from '../../models/product.model';
 import { MatIconModule } from '@angular/material/icon';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';

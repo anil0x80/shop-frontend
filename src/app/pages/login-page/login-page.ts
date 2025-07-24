@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginBox } from '../login-box/login-box';
+import { LoginBox } from '../../components/login-box/login-box';
 
 @Component({
   selector: 'app-login-page',
