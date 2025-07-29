@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormGroup, FormControl, MinLengthValidator} from '@angular/forms';
 import {ReactiveFormsModule, Validators,} from '@angular/forms';
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
+import { UserService } from '../../services/user-service';
 
 enum PasswordError {
   Strength = 'passwordStrength',
@@ -17,6 +18,7 @@ enum PasswordError {
 })
 
 export class RegisterPage {
+  private userService = inject(UserService);
     registerForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', 
@@ -81,6 +83,15 @@ export class RegisterPage {
   }
 
   onSignup() {
-    alert("username: " + this.registerForm.value.username + "  " + "password: " + this.registerForm.value.password);
+    if (this.registerForm.valid) {
+      const username = this.registerForm.value.username;
+      const password = this.registerForm.value.password;
+      
+      if (username && password) {
+        this.userService.register(username, password);
+      }
+      } else {
+      alert("Please fill in all required fields correctly.");
+    }
   }
 }

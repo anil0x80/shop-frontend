@@ -1,12 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
 import { Category } from '../models/category.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private http = inject(HttpClient);
   getProductById(id:string){
+
+
     return {
     product_id: id,
     product_name: 'Temporary Product',
