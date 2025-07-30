@@ -18,7 +18,6 @@ export class AddProductPage {
       description: [''],
       price: [0, [Validators.required, Validators.min(0)]],
       stock: [0, [Validators.required, Validators.min(0)]],
-      image: [null],
       category: ['', Validators.required]
     });
   }
