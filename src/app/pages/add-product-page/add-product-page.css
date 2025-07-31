@@ -1,0 +1,8 @@
+.add-product-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px);
+  background-color: #f5f5f5;
+  padding: 3%;
+}

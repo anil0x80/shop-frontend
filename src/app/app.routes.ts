@@ -3,6 +3,7 @@ import { Home } from './pages/home/home';
 import { LoginPage } from './pages/login-page/login-page';
 import { RegisterPage } from './pages/register-page/register-page';
 import { ProductPage } from './pages/product-page/product-page';
+import { AddProductPage } from './pages/add-product-page/add-product-page';
 
 export const routes: Routes = [
     {
@@ -23,5 +24,9 @@ export const routes: Routes = [
     {
         path: 'product/:id',
         component:ProductPage,
+    },
+    {
+        path:'add-product',
+        component:AddProductPage,
     }
 ];
