@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import {FormGroup, FormControl, MinLengthValidator} from '@angular/forms';
 import {ReactiveFormsModule, Validators,} from '@angular/forms';
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
-import { UserService } from '../../services/user-service';
+import { AuthService } from '../../services/auth-service';
+import { Router } from '@angular/router';
 
 enum PasswordError {
   Strength = 'passwordStrength',
@@ -18,7 +19,8 @@ enum PasswordError {
 })
 
 export class RegisterPage {
-  private userService = inject(UserService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
     registerForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', 
@@ -82,13 +84,23 @@ export class RegisterPage {
       return this.registerForm.controls.repeated_password;
   }
 
-  onSignup() {
+onSignup() {
     if (this.registerForm.valid) {
       const username = this.registerForm.value.username;
       const password = this.registerForm.value.password;
       
       if (username && password) {
-        this.userService.register(username, password);
+        this.authService.register(username, password).subscribe({
+          next: response=>{
+          this.authService.setUser(response);
+          this.router.navigate(["/"]);
+          },
+          error: (err) => {
+            const message = err.error?.errors?.[0]?.defaultMessage || "Unknown error occurred";
+            alert("Register failed:" + message);
+          }
+        }
+        );
       }
       } else {
       alert("Please fill in all required fields correctly.");

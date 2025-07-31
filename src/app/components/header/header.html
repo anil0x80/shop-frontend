@@ -25,8 +25,8 @@
     </button>
 
     <!-- Sign In / Up -->
-    @if (isSigned) {
-        <button class="profile-button">{{username}}</button>
+    @if (user()) {
+        <button class="profile-button">{{user()?.username}}</button>
     }
     @else {
         <div class="sign">
