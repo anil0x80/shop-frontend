@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { UserResponse } from '../models/user.response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthService {
       password: password
     }
 
-    return this.http.post<UserResponse>("http://localhost:8080/api/v1/user/create",newUser);
+    return this.http.post<UserResponse>(environment.apiUrl,newUser);
   } 
 
   logout(): void {
