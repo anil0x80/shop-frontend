@@ -5,7 +5,7 @@ import { RegisterPage } from './pages/register-page/register-page';
 import { ProductPage } from './pages/product-page/product-page';
 import { AddProductPage } from './pages/add-product-page/add-product-page';
 import { PaymentPage } from './pages/payment-page/payment-page';
-import { ProfilePage } from './profile-page/profile-page';
+import { ProfilePage } from './pages/profile-page/profile-page';
 
 export const routes: Routes = [
     {
