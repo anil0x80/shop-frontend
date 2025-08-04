@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {FormGroup, FormControl, MinLengthValidator} from '@angular/forms';
 import {ReactiveFormsModule, Validators,} from '@angular/forms';
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
-import { SectionWrapperComponent } from '../../shared/section-wrapper.component';
+import { SectionWrapperComponent } from '../../components/section-wrapper/section-wrapper.component';
 
 enum PasswordError {
   Strength = 'passwordStrength',
