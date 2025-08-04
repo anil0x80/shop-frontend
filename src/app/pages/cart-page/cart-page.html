@@ -27,6 +27,13 @@
             text-align: center;
             border: 1px solid #dee2e6;
             border-radius: 6px;
+            -moz-appearance: textfield;
+        }
+
+        .quantity-input::-webkit-inner-spin-button,
+        .quantity-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
         }
 
         .product-image {
@@ -98,91 +105,49 @@
                 <div class="col-lg-8">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="mb-0">Shopping Cart</h4>
-                        <span class="text-muted">3 items</span>
+                        {{ cart()?.cartItems?.length ?? 0 }} {{ (cart()?.cartItems?.length ?? 0) === 1 ? 'item' : 'items' }}
                     </div>
 
                     <!-- Product Cards -->
                     <div class="d-flex flex-column gap-3">
                         <!-- TODO NEED ANGULAR FOR LOOP HERE -->
+                        
+                        @if (cart()) {
+                            @for (item of cart()?.cartItems; track item.id) {
 
-                        <!-- Product 1 -->
-                        <div class="product-card p-3 shadow-sm">
-                            <div class="row align-items-center">
-                                <div class="col-md-2">
-                                    <img src="https://picsum.photos/500" alt="Product" class="product-image">
-                                </div>
-                                <div class="col-md-4">
-                                    <h6 class="mb-1">Wireless Headphones</h6>
-                                    <p class="text-muted mb-0">Black | Premium Series</p>
-                                    <span class="discount-badge mt-2">20% OFF</span>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="quantity-btn" onclick="updateQuantity(1, -1)">-</button>
-                                        <input type="number" class="quantity-input" value="1" min="1">
-                                        <button class="quantity-btn" onclick="updateQuantity(1, 1)">+</button>
+                                <div class="product-card p-3 shadow-sm">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2">
+                                            <img src={{item.product.images[0].imageUrl}} alt="Product" class="product-image">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6 class="mb-1">{{item.product.productName}}</h6>
+                                            <p class="text-muted mb-0">{{item.product.description}}</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <button class="quantity-btn" (click)="updateQuantity(item, item.quantity - 1)">-</button>
+                                                
+                                                <input type="number"
+                                                        class="quantity-input"
+                                                        (input)="clampQuantity($event, item)"
+                                                        [(ngModel)]="item.quantity"
+                                                        (change)="onQuantityChange(item)"
+                                                        min="1">
+
+                                                <button class="quantity-btn" (click)="updateQuantity(item, item.quantity + 1)">+</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            {{ (item.product.price * item.quantity) | number:'1.2-2' }}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <i class="bi bi-trash remove-btn"></i>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <span class="fw-bold">$129.99</span>
-                                </div>
-                                <div class="col-md-1">
-                                    <i class="bi bi-trash remove-btn"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 2 -->
-                        <div class="product-card p-3 shadow-sm">
-                            <div class="row align-items-center">
-                                <div class="col-md-2">
-                                    <img src="https://picsum.photos/200" alt="Product" class="product-image">
-                                </div>
-                                <div class="col-md-4">
-                                    <h6 class="mb-1">Smart Watch</h6>
-                                    <p class="text-muted mb-0">Silver | Series 7</p>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="quantity-btn" onclick="updateQuantity(2, -1)">-</button>
-                                        <input type="number" class="quantity-input" value="1" min="1">
-                                        <button class="quantity-btn" onclick="updateQuantity(2, 1)">+</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <span class="fw-bold">$299.99</span>
-                                </div>
-                                <div class="col-md-1">
-                                    <i class="bi bi-trash remove-btn"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Product 3 -->
-                        <div class="product-card p-3 shadow-sm">
-                            <div class="row align-items-center">
-                                <div class="col-md-2">
-                                    <img src="https://picsum.photos/300" alt="Product" class="product-image">
-                                </div>
-                                <div class="col-md-4">
-                                    <h6 class="mb-1">Wireless Charger</h6>
-                                    <p class="text-muted mb-0">White | 15W Fast Charge</p>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="quantity-btn" onclick="updateQuantity(3, -1)">-</button>
-                                        <input type="number" class="quantity-input" value="1" min="1">
-                                        <button class="quantity-btn" onclick="updateQuantity(3, 1)">+</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <span class="fw-bold">$49.99</span>
-                                </div>
-                                <div class="col-md-1">
-                                    <i class="bi bi-trash remove-btn"></i>
-                                </div>
-                            </div>
-                        </div>
+                            }
+                        }
                     </div>
                 </div>
 
@@ -193,8 +158,9 @@
                         
                         <div class="d-flex justify-content-between mb-3">
                             <span class="text-muted">Subtotal</span>
-                            <span>$479.97</span>
+                            <span>${{cartTotal() | number:'1.2-2'}}</span>
                         </div>
+                        <!-- 
                         <div class="d-flex justify-content-between mb-3">
                             <span class="text-muted">Discount</span>
                             <span class="text-success">-$26.00</span>
@@ -203,18 +169,11 @@
                             <span class="text-muted">Shipping</span>
                             <span>$5.00</span>
                         </div>
+                         -->
                         <hr>
                         <div class="d-flex justify-content-between mb-4">
                             <span class="fw-bold">Total</span>
-                            <span class="fw-bold">$458.97</span>
-                        </div>
-
-                        <!-- Promo Code -->
-                        <div class="mb-4">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Promo code">
-                                <button class="btn btn-outline-secondary" type="button">Apply</button>
-                            </div>
+                            <span>${{cartTotal() | number:'1.2-2'}}</span>
                         </div>
 
                         <button class="btn btn-primary checkout-btn w-100 mb-3">
@@ -230,16 +189,5 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function updateQuantity(productId, change) {
-            const input = event.target.parentElement.querySelector('.quantity-input');
-            let value = parseInt(input.value) + change;
-            if (value >= 1) {
-                input.value = value;
-            }
-        }
-    </script>
 </body>
 </html>
