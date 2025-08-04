@@ -11,6 +11,10 @@ enum PasswordError {
   Mismatch = 'passwordMismatch',
 }
 
+enum UsernameError {
+  InvalidCharacters = 'invalidCharacters',
+}
+
 @Component({
   selector: 'app-register-page',
   imports: [ReactiveFormsModule, CommonModule],
@@ -22,7 +26,8 @@ export class RegisterPage {
   private router = inject(Router);
   private authService = inject(AuthService);
     registerForm = new FormGroup({
-    username: new FormControl('', Validators.required),
+    username: new FormControl('', [Validators.required,
+         this.usernameValidator]),
     password: new FormControl('', 
         [Validators.required,
            this.passwordStrengthValidator]),
@@ -38,6 +43,24 @@ export class RegisterPage {
     if (password !== repeatedPassword) {
         return { [PasswordError.Mismatch]: true };
     }
+    return null;
+  }
+
+    usernameValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    
+    if (!value) {
+      return null;
+    }
+    
+    // Allow only alphanumeric characters, underscore, and hyphen
+    // This regex ensures only "viewable" and safe characters
+    const validPattern = /^[a-zA-Z0-9_-]+$/;
+    
+    if (!validPattern.test(value)) {
+      return { [UsernameError.InvalidCharacters]: true };
+    }
+    
     return null;
   }
 
@@ -62,6 +85,11 @@ export class RegisterPage {
       return !passwordValid ? {[PasswordError.Strength]: true}: null;
   }
 
+  hasUsernameInvalidError() {
+    return this.username.hasError(UsernameError.InvalidCharacters) &&
+           (this.username.touched || this.username.dirty);
+  }
+
   hasPasswordMismatchError(){
     return this.registerForm.hasError(PasswordError.Mismatch) && 
     (this.repeated_password.touched || this.repeated_password.dirty);
@@ -76,6 +104,10 @@ export class RegisterPage {
     return this.hasPasswordWeakError() || this.hasPasswordMismatchError();
   }
 
+  get username() {
+    return this.registerForm.controls.username;
+  }
+  
   get password() {
       return this.registerForm.controls.password;
   }
