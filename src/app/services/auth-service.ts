@@ -23,10 +23,25 @@ export class AuthService {
 
   logout(): void {
     this.userSignal.set(null);
+    sessionStorage.removeItem('user');
   }
 
   setUser(user:UserResponse){
     this.userSignal.set(user);
+    sessionStorage.setItem('user', JSON.stringify(user));
+  }
+
+   loadUserFromSession() {
+    const stored = sessionStorage.getItem('user');
+    if (stored) {
+      try {
+        const user = JSON.parse(stored) as UserResponse;
+        this.userSignal.set(user);
+      } catch (e) {
+        console.error('Invalid session user:', e);
+        sessionStorage.removeItem('user');
+      }
+    }
   }
 
 }
