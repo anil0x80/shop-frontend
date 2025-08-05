@@ -18,7 +18,7 @@ export class AuthService {
       password: password
     }
 
-    return this.http.post<UserResponse>(environment.apiUrl,newUser);
+    return this.http.post<UserResponse>(environment.apiUrl + "/api/v1/user/create",newUser);
   } 
 
   logout(): void {

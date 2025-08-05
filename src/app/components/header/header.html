@@ -13,7 +13,7 @@
 
   <div class="header-right">
     <!-- Shopping Cart as Button -->
-    <button class="cart-button">
+    <button class="cart-button" (click)="reDirect('/cart')">
       <div class="cart-icon-wrapper">
         <mat-icon class="cart-icon">shopping_cart</mat-icon>
         <span class="cart-badge">{{cartItemsCount}}</span>

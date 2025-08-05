@@ -6,6 +6,7 @@ import { ProductPage } from './pages/product-page/product-page';
 import { AddProductPage } from './pages/add-product-page/add-product-page';
 import { PaymentPage } from './pages/payment-page/payment-page';
 import { ProfilePage } from './pages/profile-page/profile-page';
+import { CartPage } from './pages/cart-page/cart-page';
 
 export const routes: Routes = [
     {
@@ -39,5 +40,10 @@ export const routes: Routes = [
         path:'profile',
         component:ProfilePage,
         title:"Profile"
+    },
+    {
+        path:'cart',
+        component:CartPage,
+        title:"Cart"
     },
 ];
