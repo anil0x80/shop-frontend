@@ -5,6 +5,9 @@ import { OrderService } from '../../services/order-service';
 import { OrderRequest,createOrderRequest } from '../../models/order.model';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth-service';
+import { CartDto } from '../../models/cart.model';
+import { ProductResponse } from '../../models/cart.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment-page',
@@ -13,16 +16,16 @@ import { AuthService } from '../../services/auth-service';
   styleUrl: './payment-page.css'
 })
 export class PaymentPage implements OnInit {
-  private productService = inject(ProductService)
+  private router = inject(Router);
+  private productService = inject(ProductService);
   private formBuilder = inject(FormBuilder);
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
 
-  cartId:string = "def89491-a1da-43b0-a4b7-a7cf5388d9b0";
+  cart!: CartDto;
 
-  products = this.productService.getProductsByCategory({id: "araba",
-    categoryName: "araba",createdAt: "", updatedAt: "", taxes: [] })
+  products: ProductResponse[] = [];
   total_price = 0;
   
   paymentForm = this.formBuilder.group({
@@ -31,17 +34,31 @@ export class PaymentPage implements OnInit {
   })
 
 
-  ngOnInit(): void {
-    const user = this.authService.user()
-    this.calculateTotalPrice();
-    if(user){
-      this.cartService.getActiveCart(user.id).subscribe(
-        {
-          next: response =>
-          this.cartId = response.id
-        }
-      );
+   ngOnInit(): void {
+    // Check if user has items in cart
+    const user = this.authService.user();
+    if (!user) {
+      this.router.navigate(['/sign-in']);
+      return;
     }
+
+    this.cartService.getActiveCart(user.id).subscribe({
+      next: response => {
+        if (!response || !response.cartItems || response.cartItems.length === 0) {
+          // Redirect to cart if empty
+          this.router.navigate(['/cart']);
+          return;
+        }
+        
+        this.cart = response;
+        this.products = this.cart.cartItems.map(cartItem => cartItem.product);
+        this.calculateTotalPrice();
+      },
+      error: () => {
+        // Redirect to cart on error
+        this.router.navigate(['/cart']);
+      }
+    });
   }
 
   private calculateTotalPrice(): void {
@@ -67,19 +84,19 @@ export class PaymentPage implements OnInit {
       
       // Map frontend values to backend enum values
       const backendPaymentMethod = "PAYMENT_INSTALLMENT";
-      console.log('Creating order request:', { cartId: this.cartId, paymentMethod: backendPaymentMethod, installmentCount, interestRate: 0.0425 });
+      console.log('Creating order request:', { cartId: this.cart.id, paymentMethod: backendPaymentMethod, installmentCount, interestRate: 0.0425 });
       
       this.orderService.placeOrder(
-        createOrderRequest(this.cartId, backendPaymentMethod, installmentCount, 0.0425)
+        createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount, 0.0425)
       ).subscribe();
     }
     else if(paymentMethod === "cash"){
       // Map frontend values to backend enum values
       const backendPaymentMethod = "PAYMENT_CASH";
-      console.log('Creating cash order request:', { cartId: this.cartId, paymentMethod: backendPaymentMethod, installmentCount: 0, interestRate: 0 });
+      console.log('Creating cash order request:', { cartId: this.cart.id, paymentMethod: backendPaymentMethod, installmentCount: 0, interestRate: 0 });
       
       this.orderService.placeOrder(
-        createOrderRequest(this.cartId, backendPaymentMethod, 0, 0)
+        createOrderRequest(this.cart.id, backendPaymentMethod, 0, 0)
       ).subscribe();
     }
   }

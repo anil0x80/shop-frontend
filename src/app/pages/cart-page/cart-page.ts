@@ -108,80 +108,84 @@ export class CartPage {
         this.updateQuantity(item, item.quantity);
     }
 
-    loadCart(userId: string) : void {    
-        const mockCart: CartDto = {
-            id: 'mock-cart-id',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            cartItems: [
-                {
-                    id: 'item-1',
-                    product: {
-                        id: 'product-1',
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString(),
-                        productName: 'Test Product',
-                        price: 99.99,
-                        description: 'This is a test product',
-                        stock: 5,
-                        categoryId: 'cat-1',
-                        images: [
-                            {
-                            id: 'image-1',
-                            imageUrl: 'https://picsum.photos/77',
-                            createdAt: new Date().toISOString(),
-                            updatedAt: new Date().toISOString(),
-                            }
-                        ]
-                        },
-                        quantity: 2,
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString()
-                },
-                {
-                    id: 'item-2',
-                    product: {
-                        id: 'product-2',
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString(),
-                        productName: 'Test Product 2',
-                        price: 39.99,
-                        description: 'This is a test product 2',
-                        stock: 5,
-                        categoryId: 'cat-1',
-                        images: [
-                            {
-                            id: 'image-2',
-                            imageUrl: 'https://picsum.photos/88',
-                            createdAt: new Date().toISOString(),
-                            updatedAt: new Date().toISOString(),
-                            }
-                        ]
-                        },
-                        quantity: 3,
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString()
-                }
-            ]
-        };
+    loadCart(userId: string) : void {
+        // const mockCart: CartDto = {
+        //     id: 'mock-cart-id',
+        //     createdAt: new Date().toISOString(),
+        //     updatedAt: new Date().toISOString(),
+        //     cartItems: [
+        //         {
+        //             id: 'item-1',
+        //             product: {
+        //                 id: 'product-1',
+        //                 createdAt: new Date().toISOString(),
+        //                 updatedAt: new Date().toISOString(),
+        //                 productName: 'Test Product',
+        //                 price: 99.99,
+        //                 description: 'This is a test product',
+        //                 stock: 5,
+        //                 categoryId: 'cat-1',
+        //                 images: [
+        //                     {
+        //                     id: 'image-1',
+        //                     imageUrl: 'https://picsum.photos/77',
+        //                     createdAt: new Date().toISOString(),
+        //                     updatedAt: new Date().toISOString(),
+        //                     }
+        //                 ]
+        //                 },
+        //                 quantity: 2,
+        //                 createdAt: new Date().toISOString(),
+        //                 updatedAt: new Date().toISOString()
+        //         },
+        //         {
+        //             id: 'item-2',
+        //             product: {
+        //                 id: 'product-2',
+        //                 createdAt: new Date().toISOString(),
+        //                 updatedAt: new Date().toISOString(),
+        //                 productName: 'Test Product 2',
+        //                 price: 39.99,
+        //                 description: 'This is a test product 2',
+        //                 stock: 5,
+        //                 categoryId: 'cat-1',
+        //                 images: [
+        //                     {
+        //                     id: 'image-2',
+        //                     imageUrl: 'https://picsum.photos/88',
+        //                     createdAt: new Date().toISOString(),
+        //                     updatedAt: new Date().toISOString(),
+        //                     }
+        //                 ]
+        //                 },
+        //                 quantity: 3,
+        //                 createdAt: new Date().toISOString(),
+        //                 updatedAt: new Date().toISOString()
+        //         }
+        //     ]
+        // };
 
-        // Use mock cart for testing
-        of(mockCart).subscribe({
-            next: this.handleCartSuccess,
-            error: this.handleCartError
-        });
+        // // Use mock cart for testing
+        // of(mockCart).subscribe({
+        //     next: this.handleCartSuccess,
+        //     error: this.handleCartError
+        // });
 
         // Uncomment below when restoring real API call
         
-        //this.cartService.getActiveCart(userId).subscribe({
-        //    next: this.handleCartSuccess,
-        //    error: this.handleCartError
-        //});
+        this.cartService.getActiveCart(userId).subscribe({
+           next: this.handleCartSuccess,
+           error: this.handleCartError
+        });
         
     }
 
     goToPaymnet(){
         this.router.navigate(["/payment"])
+    }
+
+    goToHome(){
+        this.router.navigate(["/"])
     }
 
     ngOnInit(): void {
