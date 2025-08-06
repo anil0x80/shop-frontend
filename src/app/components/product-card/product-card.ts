@@ -3,6 +3,8 @@ import { ProductResponse } from '../../models/product.model';
 import { MatIconModule } from '@angular/material/icon';
 import { CurrencyPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth-service';
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-product-card',
   imports: [MatIconModule,CurrencyPipe],
@@ -11,6 +13,9 @@ import { Router } from '@angular/router';
 })
 export class ProductCard {
   private router = inject(Router)
+  private authService = inject(AuthService);
+  private cartService = inject(CartService);
+  user = this.authService.user();
 
   product = input<ProductResponse>({
     id: '1',
@@ -34,8 +39,22 @@ export class ProductCard {
   }
 
   addProductToCart(event:MouseEvent){
-    event.stopPropagation();
-    //TODO
-    console.log("xd")
+    if(this.user){
+      event.stopPropagation();
+      const cartRequest = {
+        userId: this.user.id,
+        productId: this.product().id,
+        quantity: 1
+      };
+      this.cartService.addItemToCart(cartRequest).subscribe(
+        {
+          next: value =>this.router.navigate(['/cart']),
+          error: error => console.error('Error adding item to cart:', error)
+        }
+      )
+    }
+    else{
+      this.router.navigate(['/sign-in'])
+    }
   }
 }
