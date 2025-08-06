@@ -1,10 +1,10 @@
 <div class="container">
     <div class="quantity-control-container">
-    <button class="quantity-button" (click)="decrease()"><mat-icon>remove</mat-icon></button>
+    <button class="quantity-button" (click)="decrease()" [disabled]="amount() <= 1"><mat-icon>remove</mat-icon></button>
     <p>{{amount()}}</p>
-    <button class="quantity-button" (click)="increase()"><mat-icon>add</mat-icon></button>
+    <button class="quantity-button" (click)="increase()" [disabled]="amount() >= stock()"><mat-icon>add</mat-icon></button>
 </div>
-<button class="add-to-cart-button">
+<button class="add-to-cart-button" (click)="onAddToCart()" [disabled]="amount() <= 0 || amount() > stock()">
     <p>Add to Cart</p>
     <mat-icon>shopping_cart</mat-icon>
 </button>
