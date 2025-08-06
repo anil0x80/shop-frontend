@@ -1,6 +1,6 @@
 import { Component,inject, OnInit} from '@angular/core';
 import { ProductService} from '../../services/product-service'; 
-import { Product } from '../../models/product.model';
+import { ProductResponse } from '../../models/product.model';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { ImageSlider } from '../../components/image-slider/image-slider';
@@ -15,16 +15,25 @@ import { AddToCartButton } from "../../components/add-to-cart-button/add-to-cart
 export class ProductPage implements OnInit{
   private router = inject(Router)
   productId: string | null = null;
-  product: Product | undefined;
+  product: ProductResponse | undefined;
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
+  images: string[] = []
 
   ngOnInit(): void {
-    this.productId = this.route.snapshot.paramMap.get('id');
-    if (this.productId) {
-      this.product = this.productService.getProductById(this.productId);  //This wont be like this in final version.
-    } else {
-      console.error('Product ID is null');
-    }
+      const id = this.route.snapshot.paramMap.get('id');
+      if (!id) return console.error('Product ID is null');
+
+      this.productService.getProductById(id)
+        .subscribe({
+          next: productData => {
+            this.product = productData
+
+            for (const item of this.product.images || []) {
+              this.images.push(item.imageUrl);
+            }
+          },
+          error: err => console.error('error getProductById', err)
+        });
   }
 }

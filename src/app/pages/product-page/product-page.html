@@ -1,12 +1,12 @@
 @if (product) {
     <div class = "product-page">
-        <app-image-slider [images]="product.images" ></app-image-slider>
+        <app-image-slider [images]="this.images" ></app-image-slider>
         <div class="product-details">
-            <h1 class="product-name">{{product.product_name}}</h1>
+            <h1 class="product-name">{{product.productName}}</h1>
             <h2 class="product-price">{{ product.price| currency:'USD':'code' }}</h2>
             
             <!-- this should be name in final version -->
-            <h3>{{product.category_id}}</h3> 
+            <h3>{{product.categoryId}}</h3> 
 
             <p class = "product-description">{{product.description}}</p>
 
