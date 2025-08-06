@@ -25,7 +25,7 @@
 
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate>
+        <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="firstName" class="form-label">First name</label>
@@ -108,18 +108,27 @@
 
           <div class="my-3">
             <div class="form-check">
-              <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required />
+              <input id="credit" value="credit" formControlName="paymentMethod" type="radio" class="form-check-input" required />
               <label class="form-check-label" for="credit">Credit card</label>
             </div>
             <div class="form-check">
-              <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required />
-              <label class="form-check-label" for="debit">Debit card</label>
-            </div>
-            <div class="form-check">
-              <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required />
-              <label class="form-check-label" for="paypal">PayPal</label>
+              <input id="cash" value="cash" formControlName="paymentMethod" type="radio" class="form-check-input" required />
+              <label class="form-check-label" for="cash">Cash</label>
             </div>
           </div>
+           @if (paymentForm.get("paymentMethod")?.value == "credit") {
+              <div class="col-md-6">
+                <label for="payment-months" class="form-label">Payment Months</label>
+                <select class="form-select" id="payment-months" required formControlName="installmentCount">
+                  <option value="">Choose payment period...</option>
+                  <option value="3">3 Months</option>
+                  <option value="6">6 Months</option>
+                  <option value="12">12 Months</option>
+                  <option value="24">24 Months</option>
+                </select>
+                <div class="invalid-feedback">Please select a payment period.</div>
+              </div>
+            }
 
           <div class="row gy-3">
             <div class="col-md-6">

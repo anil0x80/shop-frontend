@@ -180,6 +180,10 @@ export class CartPage {
         
     }
 
+    goToPaymnet(){
+        this.router.navigate(["/payment"])
+    }
+
     ngOnInit(): void {
         let userId = this.authService.user()?.id;
         // TODO RESTORE
