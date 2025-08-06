@@ -16,11 +16,11 @@
     <button class="cart-button" (click)="reDirect('/cart')">
       <div class="cart-icon-wrapper">
         <mat-icon class="cart-icon">shopping_cart</mat-icon>
-        <span class="cart-badge">{{cartItemsCount}}</span>
+        <span class="cart-badge">{{cartItemsCount()}}</span>
       </div>
       <div class="cart-text">
         <p class="cart-label">Shopping cart:</p>
-        <p class="cart-total">{{ cartTotalPrice | currency:'USD':'code' }}</p>
+        <p class="cart-total">{{ cartTotalPrice() | currency:'USD':'code' }}</p>
       </div>
     </button>
 
