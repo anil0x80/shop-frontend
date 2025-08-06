@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
-import { Category } from '../models/category.model';
+import { CategoryResponse } from '../models/category.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class ProductService {
     category_id: 'default-category'
    }//temp data 
   }
-  getProductsByCategory(category:Category){
+  getProductsByCategory(category:CategoryResponse){
     const products:Product[] = [];
     for (let  i = 0;  i< 7; i++) {
       const element ={
@@ -37,14 +37,14 @@ export class ProductService {
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     version: 1,
-    category_id: category.category_id
+    category_id: category.id
       }//temp data 
     products.push(element)
     };
     return products;
   }
   
-  getRandomProductsByCategory(category:Category, amount:number){
+  getRandomProductsByCategory(category:CategoryResponse, amount:number){
    const products:Product[] = [];
     for (let  i = 0;  i< amount; i++) {
       const element ={
@@ -57,7 +57,7 @@ export class ProductService {
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     version: 1,
-    category_id: category.category_id
+    category_id: category.id
       }//temp data 
     products.push(element)
     };

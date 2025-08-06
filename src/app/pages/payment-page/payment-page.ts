@@ -9,7 +9,8 @@ import { ProductService } from '../../services/product-service';
 })
 export class PaymentPage implements OnInit {
   private productService = inject(ProductService)
-  products = this.productService.getProductsByCategory({category_id: "araba",category_name: "araba"})
+  products = this.productService.getProductsByCategory({id: "araba",
+    categoryName: "araba",createdAt: "", updatedAt: "", taxes: [] })
   total_price = 0;
 
 
