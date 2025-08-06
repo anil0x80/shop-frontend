@@ -1,9 +1,12 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {FormControl, ReactiveFormsModule,FormGroup,FormBuilder} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth-service';
+import { CartDto } from '../../models/cart.model';
+import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -16,14 +19,55 @@ export class Header {
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
+  private cartService = inject(CartService);
   user = this.authService.user;
+  
 
   searchForm = this.formBuilder.group({
     search:['']
   })
 
-  cartTotalPrice:number = 59;
-  cartItemsCount:number = 2;
+  cartTotalPrice = signal<number>(0);
+  cartItemsCount = signal<number>(0);
+  
+  private cartSubscription?: Subscription;
+
+  ngOnInit(): void {
+    // Subscribe to cart changes
+    this.cartSubscription = this.cartService.cart$.subscribe(cart => {
+      if (cart) {
+        this.cartTotalPrice.set(this.calculateCartTotal(cart));
+        this.cartItemsCount.set(this.calculateItemCount(cart));
+      } else {
+        this.cartTotalPrice.set(0);
+        this.cartItemsCount.set(0);
+      }
+    });
+
+    // Load initial cart data
+    const userId = this.authService.user()?.id;
+    if (userId) {
+      this.cartService.getActiveCart(userId).subscribe();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.cartSubscription?.unsubscribe();
+  }
+
+  private calculateCartTotal(cart: CartDto): number {
+    if (!cart.cartItems) return 0;
+    return cart.cartItems.reduce((total, item) => {
+      return total + (item.product.price * item.quantity);
+    }, 0);
+  }
+
+  private calculateItemCount(cart: CartDto): number {
+    if (!cart.cartItems) return 0;
+    return cart.cartItems.reduce((total, item) => {
+      return total + item.quantity;
+    }, 0);
+  }
 
   onSubmit(){
     console.log(this.searchForm.value.search)
