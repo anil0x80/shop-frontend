@@ -5,6 +5,8 @@ import { OrderService } from '../../services/order-service';
 import { OrderRequest,createOrderRequest } from '../../models/order.model';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth-service';
+import { CartDto } from '../../models/cart.model';
+import { ProductResponse } from '../../models/cart.model';
 
 @Component({
   selector: 'app-payment-page',
@@ -19,10 +21,9 @@ export class PaymentPage implements OnInit {
   private cartService = inject(CartService);
   private authService = inject(AuthService);
 
-  cartId:string = "def89491-a1da-43b0-a4b7-a7cf5388d9b0";
+  cart!: CartDto;
 
-  products = this.productService.getProductsByCategory({id: "araba",
-    categoryName: "araba",createdAt: "", updatedAt: "", taxes: [] })
+  products: ProductResponse[] = [];
   total_price = 0;
   
   paymentForm = this.formBuilder.group({
@@ -37,8 +38,11 @@ export class PaymentPage implements OnInit {
     if(user){
       this.cartService.getActiveCart(user.id).subscribe(
         {
-          next: response =>
-          this.cartId = response.id
+          next: response => {
+            this.cart = response;
+            this.products = this.cart.cartItems.map(cartItem => cartItem.product);
+            this.calculateTotalPrice();
+          }
         }
       );
     }
@@ -67,19 +71,19 @@ export class PaymentPage implements OnInit {
       
       // Map frontend values to backend enum values
       const backendPaymentMethod = "PAYMENT_INSTALLMENT";
-      console.log('Creating order request:', { cartId: this.cartId, paymentMethod: backendPaymentMethod, installmentCount, interestRate: 0.0425 });
+      console.log('Creating order request:', { cartId: this.cart.id, paymentMethod: backendPaymentMethod, installmentCount, interestRate: 0.0425 });
       
       this.orderService.placeOrder(
-        createOrderRequest(this.cartId, backendPaymentMethod, installmentCount, 0.0425)
+        createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount, 0.0425)
       ).subscribe();
     }
     else if(paymentMethod === "cash"){
       // Map frontend values to backend enum values
       const backendPaymentMethod = "PAYMENT_CASH";
-      console.log('Creating cash order request:', { cartId: this.cartId, paymentMethod: backendPaymentMethod, installmentCount: 0, interestRate: 0 });
+      console.log('Creating cash order request:', { cartId: this.cart.id, paymentMethod: backendPaymentMethod, installmentCount: 0, interestRate: 0 });
       
       this.orderService.placeOrder(
-        createOrderRequest(this.cartId, backendPaymentMethod, 0, 0)
+        createOrderRequest(this.cart.id, backendPaymentMethod, 0, 0)
       ).subscribe();
     }
   }

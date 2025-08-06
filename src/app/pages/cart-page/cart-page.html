@@ -60,6 +60,16 @@
             transform: translateY(-2px);
             background: linear-gradient(135deg, #4eb051, #42ad46);
         }
+        .checkout-btn:disabled {
+            background: #6c757d !important;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .checkout-btn:disabled:hover {
+            background: #6c757d !important;
+            transform: none !important;
+        }
 
         .remove-btn {
             color: #dc2626;
@@ -112,7 +122,7 @@
                     <div class="d-flex flex-column gap-3">
                         <!-- TODO NEED ANGULAR FOR LOOP HERE -->
                         
-                        @if (cart()) {
+                        @if (cart() && cart()?.cartItems && cart()!.cartItems.length > 0) {
                             @for (item of cart()?.cartItems; track item.id) {
 
                                 <div class="product-card p-3 shadow-sm">
@@ -148,6 +158,16 @@
                                 </div>
                             }
                         }
+                        @else {
+                            <div class="empty-cart-card p-5 text-center">
+                                <i class="bi bi-cart-x mb-3"></i>
+                                <h5 class="text-muted mb-2">Your cart is empty</h5>
+                                <p class="text-muted mb-3">Add some products to get started!</p>
+                                <button class="btn btn-outline-success" (click)="goToHome()">
+                                    <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                                </button>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -176,7 +196,9 @@
                             <span>${{cartTotal() | number:'1.2-2'}}</span>
                         </div>
 
-                        <button class="btn btn-primary checkout-btn w-100 mb-3" (click)="goToPaymnet()">
+                        <button class="btn btn-primary checkout-btn w-100 mb-3" 
+                            (click)="goToPaymnet()" 
+                            [disabled]="!cart() || (cart()?.cartItems?.length ?? 0) === 0">
                             Proceed to Checkout
                         </button>
                         
