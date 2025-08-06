@@ -3,6 +3,8 @@ import { ProductService } from '../../services/product-service';
 import { ReactiveFormsModule ,FormBuilder} from '@angular/forms';
 import { OrderService } from '../../services/order-service';
 import { OrderRequest,createOrderRequest } from '../../models/order.model';
+import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-payment-page',
@@ -14,6 +16,8 @@ export class PaymentPage implements OnInit {
   private productService = inject(ProductService)
   private formBuilder = inject(FormBuilder);
   private orderService = inject(OrderService);
+  private cartService = inject(CartService);
+  private authService = inject(AuthService);
 
   cartId:string = "def89491-a1da-43b0-a4b7-a7cf5388d9b0";
 
@@ -28,7 +32,16 @@ export class PaymentPage implements OnInit {
 
 
   ngOnInit(): void {
+    const user = this.authService.user()
     this.calculateTotalPrice();
+    if(user){
+      this.cartService.getActiveCart(user.id).subscribe(
+        {
+          next: response =>
+          this.cartId = response.id
+        }
+      );
+    }
   }
 
   private calculateTotalPrice(): void {
@@ -40,7 +53,6 @@ export class PaymentPage implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('Form values:', this.paymentForm.value);
     
     const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
     
