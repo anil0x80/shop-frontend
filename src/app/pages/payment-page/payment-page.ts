@@ -7,6 +7,7 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth-service';
 import { CartDto } from '../../models/cart.model';
 import { ProductResponse } from '../../models/cart.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment-page',
@@ -15,7 +16,8 @@ import { ProductResponse } from '../../models/cart.model';
   styleUrl: './payment-page.css'
 })
 export class PaymentPage implements OnInit {
-  private productService = inject(ProductService)
+  private router = inject(Router);
+  private productService = inject(ProductService);
   private formBuilder = inject(FormBuilder);
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
@@ -32,20 +34,31 @@ export class PaymentPage implements OnInit {
   })
 
 
-  ngOnInit(): void {
-    const user = this.authService.user()
-    this.calculateTotalPrice();
-    if(user){
-      this.cartService.getActiveCart(user.id).subscribe(
-        {
-          next: response => {
-            this.cart = response;
-            this.products = this.cart.cartItems.map(cartItem => cartItem.product);
-            this.calculateTotalPrice();
-          }
-        }
-      );
+   ngOnInit(): void {
+    // Check if user has items in cart
+    const user = this.authService.user();
+    if (!user) {
+      this.router.navigate(['/sign-in']);
+      return;
     }
+
+    this.cartService.getActiveCart(user.id).subscribe({
+      next: response => {
+        if (!response || !response.cartItems || response.cartItems.length === 0) {
+          // Redirect to cart if empty
+          this.router.navigate(['/cart']);
+          return;
+        }
+        
+        this.cart = response;
+        this.products = this.cart.cartItems.map(cartItem => cartItem.product);
+        this.calculateTotalPrice();
+      },
+      error: () => {
+        // Redirect to cart on error
+        this.router.navigate(['/cart']);
+      }
+    });
   }
 
   private calculateTotalPrice(): void {
