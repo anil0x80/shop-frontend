@@ -12,7 +12,11 @@
 
             <!-- this element should take product id atleast -->
              <p class="product-stock">Stock:{{product.stock}}</p>
-            <app-add-to-cart-button class="add-to-cart-button"></app-add-to-cart-button>
+            <app-add-to-cart-button 
+                class="add-to-cart-button"
+                [stock]="product.stock"
+                (addToCartClicked)="addProductToCart($event)">
+            </app-add-to-cart-button>
         </div>
         
         
