@@ -63,9 +63,9 @@ export class PaymentPage implements OnInit {
 
   private calculateTotalPrice(): void {
     this.total_price = 0;
-    for (let index = 0; index < this.products.length; index++) {
-      const product = this.products[index];
-      this.total_price += product.price || 0; 
+    for (let index = 0; index < this.cart.cartItems.length; index++) {
+      const cartItem = this.cart.cartItems[index];
+      this.total_price += (cartItem.product.price || 0) * cartItem.quantity; 
     }
   }
 

@@ -7,6 +7,7 @@ import { ImageSlider } from '../../components/image-slider/image-slider';
 import { AddToCartButton } from "../../components/add-to-cart-button/add-to-cart-button";
 import { AuthService } from '../../services/auth-service';
 import { CartService } from '../../services/cart.service';
+import { CategoryService } from '../../services/category-service';
 
 @Component({
   selector: 'app-product-page',
@@ -17,12 +18,14 @@ import { CartService } from '../../services/cart.service';
 export class ProductPage implements OnInit{
   private router = inject(Router);
   private productService = inject(ProductService);
+  private categoryService = inject(CategoryService);
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   
   productId: string | null = null;
   product: ProductResponse | undefined;
+  categoryName:string = "";
   user = this.authService.user();
   images: string[] = [];
 
@@ -40,6 +43,12 @@ export class ProductPage implements OnInit{
               console.log(item.imageUrl)
               this.images.push(item.imageUrl);
             }
+            this.categoryService.getCategory(this.product.categoryId)
+            .subscribe({
+              next: categoryData =>{
+                this.categoryName = categoryData.categoryName;
+              } 
+            })
           },
           error: err => console.error('error getProductById', err)
         });

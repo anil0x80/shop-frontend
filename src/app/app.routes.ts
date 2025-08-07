@@ -7,6 +7,7 @@ import { AddProductPage } from './pages/add-product-page/add-product-page';
 import { PaymentPage } from './pages/payment-page/payment-page';
 import { ProfilePage } from './pages/profile-page/profile-page';
 import { CartPage } from './pages/cart-page/cart-page';
+import { AddCategoryPage } from './pages/add-category-page/add-category-page';
 
 export const routes: Routes = [
     {
@@ -31,10 +32,12 @@ export const routes: Routes = [
     {
         path:'add-product',
         component:AddProductPage,
+        title:"Add Product"
     },
     {
         path:'payment',
-        component:PaymentPage
+        component:PaymentPage,
+        title:"Payment"
     },
     {
         path:'profile',
@@ -45,5 +48,10 @@ export const routes: Routes = [
         path:'cart',
         component:CartPage,
         title:"Cart"
+    },
+    {
+        path:'add-category',
+        component:AddCategoryPage,
+        title:"Add Category"
     },
 ];
