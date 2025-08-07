@@ -1,6 +1,12 @@
 <div class="add-product-page">
     <div class="container bg-white border border-grey rounded-4 p-4">
         <h1>Add Product</h1>
+
+        <!-- API error alert -->
+        @if (submitError){
+            <div class="alert alert-danger">  {{ submitError }}    </div>
+        }        
+        
         <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <label for="product-name" class="form-label">Product Name</label>
@@ -40,14 +46,16 @@
                 <label for="category" class="form-label">Category</label>
                 <select class="form-select" id="category" formControlName = "category">
                     <option value="" disabled selected hidden>Select a category</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="clothing">Clothing</option>
-                    <option value="books">Books</option>
-                    <option value="home">Home & Kitchen</option>
+
+                    @if (categories && categories.length > 0) {
+                        @for (item of categories; track item.id) {
+                            <option value={{item.id}}>{{item.categoryName}}</option>
+                        }
+                    }
                 </select>
             </div>
             
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!productForm.valid">Submit</button>
         </form>
     </div>
 </div>
