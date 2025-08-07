@@ -33,9 +33,11 @@ export class ProductPage implements OnInit{
       this.productService.getProductById(id)
         .subscribe({
           next: productData => {
-            this.product = productData;
+            this.product = productData
+            console.log(this.product)
 
             for (const item of this.product.images || []) {
+              console.log(item.imageUrl)
               this.images.push(item.imageUrl);
             }
           },

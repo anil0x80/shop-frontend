@@ -1,6 +1,6 @@
 <div class="product-container" (click)="goToProductPage()" tabindex="0" role="button">
-  <img class="product-image" [src]="product().images[0]" alt="Product Image" />
-  
+  <img class="product-image" [src]="product().images[0].imageUrl" alt="Product Image" />
+
   <div class="bottom-info">
     <div class="product-information">
       <p class="product-name">{{ product().productName }}</p>

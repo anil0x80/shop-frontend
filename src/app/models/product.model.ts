@@ -4,9 +4,9 @@ export interface CreateProductRequest {
   productName: string;
   price: number;
   categoryId: string;
-  description?: string;
+  description: string;
   stock: number;
-  imageUrls?: ProductImageRequest[];
+  imageUrls: ProductImageRequest[];
 }
 
 export interface UpdateProductRequest {
