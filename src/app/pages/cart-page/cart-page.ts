@@ -56,17 +56,24 @@ export class CartPage {
         return price;
     }
 
+    getOriginalItemQuantity(item: CartItemDto){
+        const originalItem = this.cartCopy?.cartItems.find(i => i.id === item.id);
+        if(!originalItem)
+            return null;
+
+        return originalItem.quantity;
+    }
+
     updateQuantity(item: CartItemDto, newQuantity: number): void {
         // need to use button to remove
         if (newQuantity < 1) return;
 
-        const originalItem = this.cartCopy?.cartItems.find(i => i.id === item.id);
-        if(!originalItem)
+        const originalItemQuantity = this.getOriginalItemQuantity(item)
+        if(!originalItemQuantity)
+        {
+            console.error('cant find originalItemQuantity');
             return;
-
-        // no changes
-        if(newQuantity == originalItem.quantity)
-            return;
+        }
 
         const userId = this.authService.user()?.id;
         if (!userId) {
@@ -75,11 +82,11 @@ export class CartPage {
         }
 
         // add
-        if(newQuantity > originalItem.quantity){
+        if(newQuantity > originalItemQuantity){
             const request: CartRequest = {
                 userId: userId,
                 productId: item.product.id,
-                quantity: newQuantity - originalItem.quantity
+                quantity: newQuantity - originalItemQuantity
             };
 
             this.cartService.addItemToCart(request).subscribe({
@@ -92,7 +99,7 @@ export class CartPage {
             const request: CartRequest = {
                 userId: userId,
                 productId: item.product.id,
-                quantity: originalItem.quantity - newQuantity
+                quantity: originalItemQuantity - newQuantity
             };
 
             this.cartService.removeItemFromCart(request).subscribe({
@@ -180,7 +187,7 @@ export class CartPage {
 
     }
 
-  clearCart(): void {
+  clearCartItem(item: CartItemDto): void {
     const cart = this.cart();
     const userId = this.authService.user()?.id;
 
@@ -190,14 +197,23 @@ export class CartPage {
       return;
     }
 
-    // 2) Now cart.id is a string, and userId is a string
-    this.cartService
-      .removeAllItemsFromCart(cart.id)
-      .subscribe({
-        // 3) Pass a callback, not an object literal
-        next: () => this.loadCart(userId),
+    let originalItemQuantity = this.getOriginalItemQuantity(item)
+    if(!originalItemQuantity)
+    {
+        console.error('cant find originalItemQuantity');
+        return;
+    }
+    
+    const request: CartRequest = {
+                userId: userId,
+                productId: item.product.id,
+                quantity: originalItemQuantity
+            };
+
+    this.cartService.removeItemFromCart(request).subscribe({
+        next: this.handleCartSuccess,
         error: this.handleCartError
-      });
+    });
   }
 
     goToPaymnet(){
