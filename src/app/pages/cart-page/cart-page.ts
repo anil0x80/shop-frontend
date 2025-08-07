@@ -40,13 +40,13 @@ export class CartPage {
     };
 
     private handleCartError = (err: any) => {
-        console.error('Failed to update quantity:', err);
+        console.error('Failed request:', err);
     };
 
     cartTotal() {
         const cart = this.cart();
         if (!cart) return 0
-        
+
         let price = 0;
 
         for (const item of cart.cartItems || []) {
@@ -56,30 +56,37 @@ export class CartPage {
         return price;
     }
 
+    getOriginalItemQuantity(item: CartItemDto){
+        const originalItem = this.cartCopy?.cartItems.find(i => i.id === item.id);
+        if(!originalItem)
+            return null;
+
+        return originalItem.quantity;
+    }
+
     updateQuantity(item: CartItemDto, newQuantity: number): void {
         // need to use button to remove
         if (newQuantity < 1) return;
 
-        const originalItem = this.cartCopy?.cartItems.find(i => i.id === item.id);
-        if(!originalItem)
+        const originalItemQuantity = this.getOriginalItemQuantity(item)
+        if(!originalItemQuantity)
+        {
+            console.error('cant find originalItemQuantity');
             return;
-        
-        // no changes
-        if(newQuantity == originalItem.quantity)
-            return;
+        }
 
         const userId = this.authService.user()?.id;
         if (!userId) {
             console.error('User not logged in');
             return;
         }
-        
+
         // add
-        if(newQuantity > originalItem.quantity){
+        if(newQuantity > originalItemQuantity){
             const request: CartRequest = {
                 userId: userId,
                 productId: item.product.id,
-                quantity: newQuantity - originalItem.quantity
+                quantity: newQuantity - originalItemQuantity
             };
 
             this.cartService.addItemToCart(request).subscribe({
@@ -92,7 +99,7 @@ export class CartPage {
             const request: CartRequest = {
                 userId: userId,
                 productId: item.product.id,
-                quantity: originalItem.quantity - newQuantity
+                quantity: originalItemQuantity - newQuantity
             };
 
             this.cartService.removeItemFromCart(request).subscribe({
@@ -101,7 +108,7 @@ export class CartPage {
             });
         }
 
- 
+
     }
 
     onQuantityChange(item: CartItemDto): void {
@@ -172,13 +179,42 @@ export class CartPage {
         // });
 
         // Uncomment below when restoring real API call
-        
+
         this.cartService.getActiveCart(userId).subscribe({
            next: this.handleCartSuccess,
            error: this.handleCartError
         });
-        
+
     }
+
+  clearCartItem(item: CartItemDto): void {
+    const cart = this.cart();
+    const userId = this.authService.user()?.id;
+
+    // 1) Bail out if no cart or no user
+    if (!cart?.id || !userId) {
+      console.warn('Cannot clear cart: missing cart or user ID');
+      return;
+    }
+
+    let originalItemQuantity = this.getOriginalItemQuantity(item)
+    if(!originalItemQuantity)
+    {
+        console.error('cant find originalItemQuantity');
+        return;
+    }
+    
+    const request: CartRequest = {
+                userId: userId,
+                productId: item.product.id,
+                quantity: originalItemQuantity
+            };
+
+    this.cartService.removeItemFromCart(request).subscribe({
+        next: this.handleCartSuccess,
+        error: this.handleCartError
+    });
+  }
 
     goToPaymnet(){
         this.router.navigate(["/payment"])
