@@ -40,13 +40,13 @@ export class CartPage {
     };
 
     private handleCartError = (err: any) => {
-        console.error('Failed to update quantity:', err);
+        console.error('Failed request:', err);
     };
 
     cartTotal() {
         const cart = this.cart();
         if (!cart) return 0
-        
+
         let price = 0;
 
         for (const item of cart.cartItems || []) {
@@ -63,7 +63,7 @@ export class CartPage {
         const originalItem = this.cartCopy?.cartItems.find(i => i.id === item.id);
         if(!originalItem)
             return;
-        
+
         // no changes
         if(newQuantity == originalItem.quantity)
             return;
@@ -73,7 +73,7 @@ export class CartPage {
             console.error('User not logged in');
             return;
         }
-        
+
         // add
         if(newQuantity > originalItem.quantity){
             const request: CartRequest = {
@@ -101,7 +101,7 @@ export class CartPage {
             });
         }
 
- 
+
     }
 
     onQuantityChange(item: CartItemDto): void {
@@ -172,13 +172,33 @@ export class CartPage {
         // });
 
         // Uncomment below when restoring real API call
-        
+
         this.cartService.getActiveCart(userId).subscribe({
            next: this.handleCartSuccess,
            error: this.handleCartError
         });
-        
+
     }
+
+  clearCart(): void {
+    const cart = this.cart();
+    const userId = this.authService.user()?.id;
+
+    // 1) Bail out if no cart or no user
+    if (!cart?.id || !userId) {
+      console.warn('Cannot clear cart: missing cart or user ID');
+      return;
+    }
+
+    // 2) Now cart.id is a string, and userId is a string
+    this.cartService
+      .removeAllItemsFromCart(cart.id)
+      .subscribe({
+        // 3) Pass a callback, not an object literal
+        next: () => this.loadCart(userId),
+        error: this.handleCartError
+      });
+  }
 
     goToPaymnet(){
         this.router.navigate(["/payment"])
