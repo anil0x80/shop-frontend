@@ -17,7 +17,6 @@ import { Router } from '@angular/router';
 })
 export class PaymentPage implements OnInit {
   private router = inject(Router);
-  private productService = inject(ProductService);
   private formBuilder = inject(FormBuilder);
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
@@ -35,7 +34,6 @@ export class PaymentPage implements OnInit {
 
 
    ngOnInit(): void {
-    // Check if user has items in cart
     const user = this.authService.user();
     if (!user) {
       this.router.navigate(['/sign-in']);
@@ -45,7 +43,6 @@ export class PaymentPage implements OnInit {
     this.cartService.getActiveCart(user.id).subscribe({
       next: response => {
         if (!response || !response.cartItems || response.cartItems.length === 0) {
-          // Redirect to cart if empty
           this.router.navigate(['/cart']);
           return;
         }
@@ -55,7 +52,6 @@ export class PaymentPage implements OnInit {
         this.calculateTotalPrice();
       },
       error: () => {
-        // Redirect to cart on error
         this.router.navigate(['/cart']);
       }
     });
@@ -78,22 +74,17 @@ export class PaymentPage implements OnInit {
       const installmentCount = Number(installmentCountValue) || 0;
       
       if (!installmentCountValue || installmentCount === 0) {
-        console.error('Installment count is required for credit payments');
         return;
       }
       
-      // Map frontend values to backend enum values
       const backendPaymentMethod = "PAYMENT_INSTALLMENT";
-      console.log('Creating order request:', { cartId: this.cart.id, paymentMethod: backendPaymentMethod, installmentCount, interestRate: 0.0425 });
       
       this.orderService.placeOrder(
         createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount, 0.0425)
       ).subscribe();
     }
     else if(paymentMethod === "cash"){
-      // Map frontend values to backend enum values
       const backendPaymentMethod = "PAYMENT_CASH";
-      console.log('Creating cash order request:', { cartId: this.cart.id, paymentMethod: backendPaymentMethod, installmentCount: 0, interestRate: 0 });
       
       this.orderService.placeOrder(
         createOrderRequest(this.cart.id, backendPaymentMethod, 0, 0)
