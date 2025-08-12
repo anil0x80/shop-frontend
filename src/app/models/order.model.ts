@@ -12,11 +12,10 @@ export interface OrderRequest {
     cartId: string;
     paymentMethod: PaymentMethod | string;
     installmentCount: number;
-    interestRate: number;
 }
 
-export function createOrderRequest(cartId: string, paymentMethod: PaymentMethod | string, installmentCount: number, interestRate: number): OrderRequest {
-    return { cartId, paymentMethod, installmentCount, interestRate };
+export function createOrderRequest(cartId: string, paymentMethod: PaymentMethod | string, installmentCount: number): OrderRequest {
+    return { cartId, paymentMethod, installmentCount };
 }
 
 export interface OrderItemDto {

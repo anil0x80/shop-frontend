@@ -76,36 +76,39 @@ export class PaymentPage implements OnInit {
   const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
 
   if (paymentMethod === 'credit') {
-      const installmentCountValue = this.paymentForm.get('installmentCount')?.value;
-      const installmentCount = Number(installmentCountValue) || 0;
+        const installmentCountValue = this.paymentForm.get('installmentCount')?.value;
+        const installmentCount = Number(installmentCountValue) || 0;
 
-      if (!installmentCountValue || installmentCount === 0) {
-        return;
-      }
-
-  const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_INSTALLMENT;
-
-      this.orderService.placeOrder(
-        createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount, 0.0425)
-      ).subscribe(
-        {
-          next: response=> console.log(response)
+        if (!installmentCountValue || installmentCount === 0) {
+          return;
         }
-      );
+
+      const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_INSTALLMENT;
+
+        this.orderService.placeOrder(
+          createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount)
+        ).subscribe(
+          {
+            next: response=>{
+              console.log(response);
+              this.router.navigate(["/order",response.id])
+            }
+          }
+        );
     }
     else if (paymentMethod === 'cash') {
-      const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_CASH;
+        const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_CASH;
 
-      this.orderService.placeOrder(
-        createOrderRequest(this.cart.id, backendPaymentMethod, 0, 0)
-      ).subscribe(
-        {
-          next: response=>{
-            console.log(response);
-            this.router.navigate(["/order",response.id])
+        this.orderService.placeOrder(
+          createOrderRequest(this.cart.id, backendPaymentMethod, 0)
+        ).subscribe(
+          {
+            next: response=>{
+              console.log(response);
+              this.router.navigate(["/order",response.id])
+            }
           }
-        }
-      );
-    }
+        );
+      }
   }
 }
