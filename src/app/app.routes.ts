@@ -8,6 +8,7 @@ import { PaymentPage } from './pages/payment-page/payment-page';
 import { ProfilePage } from './pages/profile-page/profile-page';
 import { CartPage } from './pages/cart-page/cart-page';
 import { AddCategoryPage } from './pages/add-category-page/add-category-page';
+import { OrderPage } from './pages/order/order';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,10 @@ export const routes: Routes = [
     {
         path: 'product/:id',
         component:ProductPage,
+    },
+    {
+        path: 'order/:id',
+        component:OrderPage,
     },
     {
         path:'add-product',

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product-service';
 import { ReactiveFormsModule ,FormBuilder} from '@angular/forms';
 import { OrderService } from '../../services/order-service';
-import { OrderRequest,createOrderRequest } from '../../models/order.model';
+import { OrderRequest, createOrderRequest, PaymentMethod } from '../../models/order.model';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth-service';
 import { CartDto } from '../../models/cart.model';
@@ -22,11 +22,11 @@ export class PaymentPage implements OnInit {
   private cartService = inject(CartService);
   private authService = inject(AuthService);
 
-  cart!: CartDto;
+  cart: CartDto | undefined;
 
   products: ProductResponse[] = [];
   total_price = 0;
-  
+
   paymentForm = this.formBuilder.group({
     paymentMethod: ['credit'],
     installmentCount: [null],
@@ -46,7 +46,7 @@ export class PaymentPage implements OnInit {
           this.router.navigate(['/cart']);
           return;
         }
-        
+
         this.cart = response;
         this.products = this.cart.cartItems.map(cartItem => cartItem.product);
         this.calculateTotalPrice();
@@ -59,36 +59,53 @@ export class PaymentPage implements OnInit {
 
   private calculateTotalPrice(): void {
     this.total_price = 0;
+    if(!this.cart)
+      return;
+
     for (let index = 0; index < this.cart.cartItems.length; index++) {
       const cartItem = this.cart.cartItems[index];
-      this.total_price += (cartItem.product.price || 0) * cartItem.quantity; 
+      this.total_price += (cartItem.product.price || 0) * cartItem.quantity;
     }
   }
 
   onSubmit(): void {
-    
-    const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
-    
-    if (paymentMethod === "credit") {
+
+    if(!this.cart)
+      return;
+
+  const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
+
+  if (paymentMethod === 'credit') {
       const installmentCountValue = this.paymentForm.get('installmentCount')?.value;
       const installmentCount = Number(installmentCountValue) || 0;
-      
+
       if (!installmentCountValue || installmentCount === 0) {
         return;
       }
-      
-      const backendPaymentMethod = "PAYMENT_INSTALLMENT";
-      
+
+  const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_INSTALLMENT;
+
       this.orderService.placeOrder(
         createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount, 0.0425)
-      ).subscribe();
+      ).subscribe(
+        {
+          next: response=> console.log(response)
+        }
+      );
     }
-    else if(paymentMethod === "cash"){
-      const backendPaymentMethod = "PAYMENT_CASH";
-      
+    else if (paymentMethod === 'cash') {
+      const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_CASH;
+
       this.orderService.placeOrder(
         createOrderRequest(this.cart.id, backendPaymentMethod, 0, 0)
-      ).subscribe();
+      ).subscribe(
+        {
+          next: response=>{
+            console.log(response);
+            this.router.navigate(["/order",response.id])
+          }
+        }
+      );
     }
   }
 }

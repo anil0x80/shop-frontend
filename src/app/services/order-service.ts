@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { OrderRequest } from '../models/order.model';
+import { OrderRequest, OrderResponse } from '../models/order.model';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,7 +10,15 @@ export class OrderService {
   private http = inject(HttpClient)
   
 
-  placeOrder(orderRequst:OrderRequest){
-    return this.http.post(environment.apiUrl + "/api/v1/order/place",orderRequst)
+  placeOrder(orderRequest: OrderRequest){
+    return this.http.post<OrderResponse>(environment.apiUrl + "/api/v1/order/place", orderRequest)
+  }
+
+  getOrder(orderId: string){
+    return this.http.get<OrderResponse>(`${environment.apiUrl}/api/v1/order/${orderId}`);
+  }
+
+  getOrdersOfUser(userId: string){
+    return this.http.get<OrderResponse[]>(`${environment.apiUrl}/api/v1/order/user/${userId}`);
   }
 }
