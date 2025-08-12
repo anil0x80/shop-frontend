@@ -25,6 +25,7 @@ export interface ProductResponse {
   updatedAt: string;
   productName: string;
   price: number;
+  afterTaxPrice: number;
   description: string;
   stock: number;
   categoryId: string;
