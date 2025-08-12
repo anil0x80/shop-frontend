@@ -16,5 +16,6 @@ export class App implements OnInit{
 
   ngOnInit(): void {
       this.authService.loadUserFromSession();
+      this.authService.loadTokenFromSession();
   }
 }

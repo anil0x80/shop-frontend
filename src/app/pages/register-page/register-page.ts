@@ -124,6 +124,7 @@ onSignup() {
       if (username && password) {
         this.authService.register(username, password).subscribe({
           next: response=>{
+          
           this.authService.setUser(response);
           this.router.navigate(["/"]);
           },

@@ -1,6 +1,8 @@
 import { Component,inject } from '@angular/core';
 import { ReactiveFormsModule,FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../services/auth-service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,6 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './login-box.css'
 })
 export class LoginBox {
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   formBuilder = inject(FormBuilder)
   showPassword = false;
@@ -29,4 +33,29 @@ togglePassword(){
     this.inputType = "text";
   }
 }
+
+onSignIn(){
+  if (this.signInForm.valid) {
+      const username = this.signInForm.value.username;
+      const password = this.signInForm.value.password;
+      
+      if (username && password) {
+        this.authService.login(username, password).subscribe({
+          next: response=>{
+          
+          this.authService.setUser(response);
+          this.router.navigate(["/"]);
+          },
+          error: (err) => {
+            const message = err.error?.errors?.[0]?.defaultMessage || "Unknown error occurred";
+            alert("Sign in failed:" + message);
+          }
+        }
+        );
+      }
+      } else {
+      alert("Please fill in all required fields correctly.");
+    }
+  }
 }
+

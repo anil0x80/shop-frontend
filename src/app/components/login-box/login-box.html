@@ -1,12 +1,12 @@
 
 <div class="container">
     
-    <form [formGroup]="signInForm" class="sign-in-form">
+    <form [formGroup]="signInForm" class="sign-in-form" (submit)="onSignIn()">
         <p class="sign-in-text">Sign In</p>
         <input type="text" formControlName="username" placeholder="Username">
         <div class="password-container">
             <input type={{inputType}} formControlName="password" placeholder="Password">
-            <button (click)="togglePassword()" class="password-toggle">
+            <button type="button" (click)="togglePassword()" class="password-toggle">
                 @if (showPassword) {
                     <mat-icon>visibility</mat-icon>
                 }
