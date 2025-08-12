@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product-service';
 import { ReactiveFormsModule ,FormBuilder} from '@angular/forms';
 import { OrderService } from '../../services/order-service';
-import { OrderRequest,createOrderRequest } from '../../models/order.model';
+import { OrderRequest, createOrderRequest, PaymentMethod } from '../../models/order.model';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth-service';
 import { CartDto } from '../../models/cart.model';
@@ -67,9 +67,9 @@ export class PaymentPage implements OnInit {
 
   onSubmit(): void {
     
-    const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
+  const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
     
-    if (paymentMethod === "credit") {
+  if (paymentMethod === 'credit') {
       const installmentCountValue = this.paymentForm.get('installmentCount')?.value;
       const installmentCount = Number(installmentCountValue) || 0;
       
@@ -77,18 +77,29 @@ export class PaymentPage implements OnInit {
         return;
       }
       
-      const backendPaymentMethod = "PAYMENT_INSTALLMENT";
+  const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_INSTALLMENT;
       
       this.orderService.placeOrder(
         createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount, 0.0425)
-      ).subscribe();
+      ).subscribe(
+        {
+          next: response=> console.log(response)
+        }
+      );
     }
-    else if(paymentMethod === "cash"){
-      const backendPaymentMethod = "PAYMENT_CASH";
+    else if (paymentMethod === 'cash') {
+      const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_CASH;
       
       this.orderService.placeOrder(
         createOrderRequest(this.cart.id, backendPaymentMethod, 0, 0)
-      ).subscribe();
+      ).subscribe(
+        {
+          next: response=>{
+            console.log(response);
+            this.router.navigate(["/order",response.id])
+          }
+        }
+      );
     }
   }
 }

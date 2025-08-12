@@ -21,6 +21,7 @@ export class ProductCard {
     id: '1',
     productName: 'Temporary Product',
     price: 100,
+    afterTaxPrice: 100,
     description: 'This is a temporary product for testing purposes.',
     stock: 10,
     images: [{
