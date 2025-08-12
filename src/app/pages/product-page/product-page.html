@@ -4,24 +4,24 @@
         <div class="product-details">
             <h1 class="product-name">{{product.productName}}</h1>
             <h2 class="product-price">{{ product.price| currency:'USD':'code' }}</h2>
-            
+
             <!-- this should be name in final version -->
-            <h3>{{product.categoryId}}</h3> 
+            <h3>{{categoryName}}</h3>
 
             <p class = "product-description">{{product.description}}</p>
 
             <!-- this element should take product id atleast -->
              <p class="product-stock">Stock:{{product.stock}}</p>
-            <app-add-to-cart-button 
+            <app-add-to-cart-button
                 class="add-to-cart-button"
                 [stock]="product.stock"
                 (addToCartClicked)="addProductToCart($event)">
             </app-add-to-cart-button>
         </div>
-        
-        
+
+
     </div>
-}   
+}
 @else{
     <p>IT DOES NOT EXİST</p>
 }

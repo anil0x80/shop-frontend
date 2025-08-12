@@ -1,5 +1,5 @@
 import { Component,inject, OnInit} from '@angular/core';
-import { ProductService} from '../../services/product-service'; 
+import { ProductService} from '../../services/product-service';
 import { ProductResponse } from '../../models/product.model';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
@@ -22,7 +22,7 @@ export class ProductPage implements OnInit{
   private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
-  
+
   productId: string | null = null;
   product: ProductResponse | undefined;
   categoryName:string = "";
@@ -47,7 +47,7 @@ export class ProductPage implements OnInit{
             .subscribe({
               next: categoryData =>{
                 this.categoryName = categoryData.categoryName;
-              } 
+              }
             })
           },
           error: err => console.error('error getProductById', err)
@@ -61,23 +61,23 @@ export class ProductPage implements OnInit{
         console.error('Product not loaded');
         return;
       }
-      
+
       const cartRequest = {
         userId: this.user.id,
-        productId: this.product.id, 
+        productId: this.product.id,
         quantity: quantity // Use the quantity from the component
       };
-      
+
       this.cartService.addItemToCart(cartRequest).subscribe({
         next: value => {
           this.router.navigate(['/cart']);
         },
         error: error => {
           console.error('Error adding item to cart:', error);
-          
+
           // Handle specific error scenarios
           let errorMessage = 'Unable to add item to cart. ';
-          
+
           switch (error.status) {
             case 400:
               errorMessage += 'Invalid request or insufficient stock.';
@@ -98,7 +98,7 @@ export class ProductPage implements OnInit{
             default:
               errorMessage += 'Please check your connection and try again.';
           }
-          
+
           alert(errorMessage);
         }
       });
@@ -107,4 +107,5 @@ export class ProductPage implements OnInit{
       this.router.navigate(['/sign-in']);
     }
   }
+
 }
