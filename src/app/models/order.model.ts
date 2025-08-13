@@ -8,14 +8,20 @@ export enum OrderStatus {
     FINISHED = 'FINISHED'
 }
 
-export interface OrderRequest {
+export interface InstallmentOrderRequest{
     cartId: string;
-    paymentMethod: PaymentMethod | string;
-    installmentCount: number;
+    installmentCount:InstallmentOption
 }
 
-export function createOrderRequest(cartId: string, paymentMethod: PaymentMethod | string, installmentCount: number): OrderRequest {
-    return { cartId, paymentMethod, installmentCount };
+export enum InstallmentOption {
+  THREE = 3,
+  SIX = 6,
+  TWELVE = 12,
+  TWENTY_FOUR = 24
+}
+
+export interface CashOrderRequest{
+    cartId:string;
 }
 
 export interface OrderItemDto {

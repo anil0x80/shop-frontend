@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { CartService } from './cart.service';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
 import { map, tap } from 'rxjs';
@@ -9,6 +10,7 @@ import { map, tap } from 'rxjs';
 })
 export class AuthService {
   private http = inject(HttpClient)
+  private cartService = inject(CartService);
 
   private userSignal = signal<User | null>(null);
   readonly user = this.userSignal.asReadonly();
@@ -64,7 +66,10 @@ export class AuthService {
 
   logout(): void {
     this.userSignal.set(null);
+    this.tokenSignal.set(null);
     sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+    this.cartService.clearCartState();
   }
 
   setUser(user:User){

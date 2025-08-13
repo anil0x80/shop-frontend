@@ -26,7 +26,7 @@
 
     <!-- Sign In / Up -->
     @if (user()) {
-        <button class="profile-button">{{user()?.username}}</button>
+        <button class="profile-button" (click)="reDirect('/profile')">{{user()?.username}}</button>
     }
     @else {
         <div class="sign">

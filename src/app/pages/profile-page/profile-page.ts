@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormGroup, FormControl, MinLengthValidator} from '@angular/forms';
 import {ReactiveFormsModule, Validators,} from '@angular/forms';
 import {AbstractControl, ValidationErrors, ValidatorFn} from '@angular/forms';
 import { SectionWrapperComponent } from '../../components/section-wrapper/section-wrapper.component';
+import { AuthService } from '../../services/auth-service';
+import { R } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 
 enum PasswordError {
   Strength = 'passwordStrength',
@@ -18,6 +21,9 @@ enum PasswordError {
 })
 
 export class ProfilePage {
+  private authService = inject(AuthService)
+  private router = inject(Router);
+
     changePasswordForm = new FormGroup({
     currentPassword: new FormControl('', Validators.required),
     password: new FormControl('', 
@@ -83,5 +89,10 @@ export class ProfilePage {
 
   onSignup() {
     alert("currentPw: " + this.changePasswordForm.value.currentPassword + "  " + "newPw: " + this.changePasswordForm.value.password);
+  }
+
+  logout() {
+    this.authService.logout()
+    this.router.navigate(['/'])
   }
 }

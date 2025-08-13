@@ -67,4 +67,27 @@ export class OrderPage implements OnInit {
   trackItem(index: number, item: OrderItemDto){
     return item.id;
   }
+
+  private productsTaxedTotal(): number | null {
+    if (!this.items.length) return 0;
+    for (const item of this.items) {
+      if (!this.itemProducts[item.productId]) return null;
+    }
+    let sum = 0;
+    for (const item of this.items) {
+      const prod = this.itemProducts[item.productId];
+      if (!prod) continue;
+      const base = (prod.afterTaxPrice ?? prod.price) * item.quantity;
+      sum += base;
+    }
+    return sum;
+  }
+
+  interestAmount(): number | null {
+    if (!this.order) return null;
+    const taxed = this.productsTaxedTotal();
+    if (taxed === null) return null; 
+    const interest = this.order.totalAmount - taxed;
+    return interest > 0 ? interest : 0;
+  }
 }

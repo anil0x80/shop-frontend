@@ -1,4 +1,5 @@
 .profile-page {
+  flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;  /* set align-self on each children, related to vertical alignment */
@@ -89,4 +90,23 @@ input.ng-invalid.ng-touched {
 
 .input-label {
   margin-left: 0.1rem;
+}
+
+.log-out-button{
+    background-color: #00b300;
+    color: white;
+    font-weight: 200;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: transparent;
+    border-radius: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    cursor: pointer; 
+    align-self: center;
+    margin-top: 1em;
+}
+
+.log-out-button :hover{
+    background-color: #009900;
 }

@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product-service';
 import { ReactiveFormsModule ,FormBuilder} from '@angular/forms';
 import { OrderService } from '../../services/order-service';
-import { OrderRequest, createOrderRequest, PaymentMethod } from '../../models/order.model';
+import { CashOrderRequest, InstallmentOrderRequest, InstallmentOption, PaymentMethod } from '../../models/order.model';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth-service';
 import { CartDto } from '../../models/cart.model';
@@ -76,39 +76,32 @@ export class PaymentPage implements OnInit {
   const paymentMethod = this.paymentForm.get('paymentMethod')?.value;
 
   if (paymentMethod === 'credit') {
-        const installmentCountValue = this.paymentForm.get('installmentCount')?.value;
-        const installmentCount = Number(installmentCountValue) || 0;
+      const installmentCountValue = this.paymentForm.get('installmentCount')?.value;
+      const installmentCount = Number(installmentCountValue) as InstallmentOption;
+      if (!installmentCountValue || ![3,6,12,24].includes(installmentCount)) return;
 
-        if (!installmentCountValue || installmentCount === 0) {
-          return;
-        }
-
-      const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_INSTALLMENT;
-
-        this.orderService.placeOrder(
-          createOrderRequest(this.cart.id, backendPaymentMethod, installmentCount)
-        ).subscribe(
-          {
-            next: response=>{
-              console.log(response);
-              this.router.navigate(["/order",response.id])
-            }
-          }
-        );
+      const request: InstallmentOrderRequest = {
+        cartId: this.cart.id,
+        installmentCount
+      };
+      this.orderService.placeInstallmentOrder(request).subscribe({
+        next: response => this.afterOrderSuccess(response.id)
+      });
+    } else if (paymentMethod === 'cash') {
+      const request: CashOrderRequest = { cartId: this.cart.id };
+      this.orderService.placeCashOrder(request).subscribe({
+        next: response => this.afterOrderSuccess(response.id)
+      });
     }
-    else if (paymentMethod === 'cash') {
-        const backendPaymentMethod: PaymentMethod = PaymentMethod.PAYMENT_CASH;
+  }
 
-        this.orderService.placeOrder(
-          createOrderRequest(this.cart.id, backendPaymentMethod, 0)
-        ).subscribe(
-          {
-            next: response=>{
-              console.log(response);
-              this.router.navigate(["/order",response.id])
-            }
-          }
-        );
-      }
+  private afterOrderSuccess(orderId: string){
+    const userId = this.authService.user()?.id;
+    if (userId) {
+      this.cartService.getActiveCart(userId).subscribe();
+    } else {
+      this.cartService.clearCartState();
+    }
+    this.router.navigate(["/order", orderId]);
   }
 }
