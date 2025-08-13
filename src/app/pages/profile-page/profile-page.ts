@@ -95,4 +95,9 @@ export class ProfilePage {
     this.authService.logout()
     this.router.navigate(['/'])
   }
+
+  toOrders() {
+    this.router.navigate(['/order/history'])
+  }
+
 }
