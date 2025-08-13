@@ -21,6 +21,7 @@ export class OrderPage implements OnInit {
 
   order?: OrderResponse;
   items: OrderItemDto[] = [];
+  totalItemCount:number = 0;
   itemProducts: Record<string, ProductResponse | undefined> = {};
   loading = false;
   error?: string;
@@ -40,6 +41,9 @@ export class OrderPage implements OnInit {
       next: data => {
         this.order = data;
         this.items = data.orderItems || [];
+        for (const item of this.items) {
+          this.totalItemCount += item.quantity;
+        }
         this.loadProductsForItems();
         this.loading = false;
       },
@@ -89,5 +93,13 @@ export class OrderPage implements OnInit {
     if (taxed === null) return null; 
     const interest = this.order.totalAmount - taxed;
     return interest > 0 ? interest : 0;
+  }
+
+  goToOrderHistory(){
+    this.router.navigate(['/order/history']);
+  }
+
+  continueShopping(){
+    this.router.navigate(['/']);
   }
 }

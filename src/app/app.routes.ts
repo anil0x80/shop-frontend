@@ -9,6 +9,7 @@ import { ProfilePage } from './pages/profile-page/profile-page';
 import { CartPage } from './pages/cart-page/cart-page';
 import { AddCategoryPage } from './pages/add-category-page/add-category-page';
 import { OrderPage } from './pages/order/order';
+import { OrderHistory } from './pages/order-history/order-history';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,10 @@ export const routes: Routes = [
     {
         path: 'product/:id',
         component:ProductPage,
+    },
+    {
+        path:'order/history',
+        component:OrderHistory
     },
     {
         path: 'order/:id',
@@ -59,4 +64,5 @@ export const routes: Routes = [
         component:AddCategoryPage,
         title:"Add Category"
     },
+
 ];
