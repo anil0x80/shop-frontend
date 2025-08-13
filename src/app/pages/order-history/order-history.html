@@ -9,9 +9,17 @@
                     <p class="m-0 text-dark fw-bold">{{order.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}</p>
                     <p class="m-0 text-secondary">#{{order.id}}</p> 
                 </div>
-                <button class="btn btn-outline-success rounded-pill" (click)="goToOrderDetails(order.id)">
-                    Go to Order Details
-                </button>
+                <div class="d-flex gap-2 align-items-center">
+                    @if (order.status === 'FINISHED') {
+							<span class="badge bg-success status-badge">FINISHED</span>
+						} @else {
+							<span class="badge bg-warning text-dark status-badge">ACTIVE</span>
+						}
+                     <button class="btn btn-outline-success rounded-pill" (click)="goToOrderDetails(order.id)">
+                        Go to Order Details
+                    </button>
+                </div>
+               
             </div>
         }
     </div>
