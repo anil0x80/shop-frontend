@@ -22,7 +22,7 @@ export class OrderHistory implements OnInit{
       const user = this.authService.user();
       if(user){
         this.orderService.getOrdersOfUser(user.id).subscribe({
-          next: res =>{ this.orders = res
+          next: res =>{ this.orders = res.reverse();
             console.log(res)
           },
           error: err=>{console.log(err)}
