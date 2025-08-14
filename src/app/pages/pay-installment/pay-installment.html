@@ -1,1 +1,56 @@
-<p>pay-installment works!</p>
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-6 col-xl-5">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h5 class="card-title mb-3">Pay Installment</h5>
+					<p class="text-muted small">Installment ID: <code>{{ installmentId }}</code></p>
+
+					@if (state.success) {
+						<div class="alert alert-success">Installment paid successfully.</div>
+						<button class="btn btn-success" (click)="backToOrders()">Back to Orders</button>
+					} @else {
+						@if (state.error) { <div class="alert alert-danger mb-3">{{ state.error }}</div> }
+
+						<form [formGroup]="cardForm" (ngSubmit)="pay()" novalidate class="row g-3">
+							<div class="col-12">
+								<label class="form-label" for="cc-name">Name on card</label>
+								<input id="cc-name" type="text" formControlName="cardName" class="form-control" [class.is-invalid]="cardForm.get('cardName')?.invalid && cardForm.get('cardName')?.touched" placeholder="John Doe" />
+								@if (cardForm.get('cardName')?.invalid && cardForm.get('cardName')?.touched) {
+									<div class="invalid-feedback d-block">Name on card is required.</div>
+								}
+							</div>
+							<div class="col-12">
+								<label class="form-label" for="cc-number">Card number</label>
+								<input id="cc-number" type="text" formControlName="cardNumber" class="form-control" [class.is-invalid]="cardForm.get('cardNumber')?.invalid && cardForm.get('cardNumber')?.touched" placeholder="4111111111111111" />
+								@if (cardForm.get('cardNumber')?.invalid && cardForm.get('cardNumber')?.touched) {
+									<div class="invalid-feedback d-block">Enter a valid card number (13-19 digits).</div>
+								}
+							</div>
+							<div class="col-6">
+								<label class="form-label" for="cc-expiration">Expiration (MM/YY)</label>
+								<input id="cc-expiration" type="text" formControlName="expiration" class="form-control" [class.is-invalid]="cardForm.get('expiration')?.invalid && cardForm.get('expiration')?.touched" placeholder="08/27" />
+								@if (cardForm.get('expiration')?.invalid && cardForm.get('expiration')?.touched) {
+									<div class="invalid-feedback d-block">Format MM/YY.</div>
+								}
+							</div>
+							<div class="col-6">
+								<label class="form-label" for="cc-cvv">CVV</label>
+								<input id="cc-cvv" type="text" formControlName="cvv" class="form-control" [class.is-invalid]="cardForm.get('cvv')?.invalid && cardForm.get('cvv')?.touched" placeholder="123" />
+								@if (cardForm.get('cvv')?.invalid && cardForm.get('cvv')?.touched) {
+									<div class="invalid-feedback d-block">3 or 4 digits.</div>
+								}
+							</div>
+							  <div class="col-12 mt-4 d-flex gap-2">
+								<button type="submit" class="btn btn-success flex-grow-1" [disabled]="state.processing">
+									@if (state.processing) { <span class="spinner-border spinner-border-sm me-2"></span> Processing... } @else { Pay Now }
+								</button>
+								<button type="button" class="btn btn-outline-secondary" (click)="backToOrders()" [disabled]="state.processing">Cancel</button>
+							</div>
+						</form>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
