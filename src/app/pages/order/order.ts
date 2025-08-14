@@ -102,4 +102,9 @@ export class OrderPage implements OnInit {
   continueShopping(){
     this.router.navigate(['/']);
   }
+
+  goToProduct(productId: string){
+    if (!productId) return;
+    this.router.navigate(['/product', productId]);
+  }
 }

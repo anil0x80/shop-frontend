@@ -39,23 +39,26 @@ export class ProductCard {
     this.router.navigate(['/product', this.product().id]);
   }
 
-  addProductToCart(event:MouseEvent){
-    if(this.user){
+  addProductToCart(event: MouseEvent){
+    const currentUser = this.user;
+    if(currentUser){
       event.stopPropagation();
       const cartRequest = {
-        userId: this.user.id,
+        userId: currentUser.id,
         productId: this.product().id,
         quantity: 1
       };
-      this.cartService.addItemToCart(cartRequest).subscribe(
-        {
-          next: value =>this.router.navigate(['/cart']),
-          error: error => console.error('Error adding item to cart:', error)
-        }
-      )
-    }
-    else{
-      this.router.navigate(['/sign-in'])
+      this.cartService.addItemToCart(cartRequest).subscribe({
+        next: () => {
+          this.cartService.getActiveCart(currentUser.id).subscribe({
+            next: () => {},
+            error: (err) => console.warn('Cart refresh failed after add', err)
+          });
+        },
+        error: (error) => console.error('Error adding item to cart:', error)
+      });
+    } else {
+      this.router.navigate(['/sign-in']);
     }
   }
 }

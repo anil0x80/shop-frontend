@@ -22,13 +22,13 @@
 									<div class="row align-items-center gy-2">
 										<div class="col-md-2 text-center">
 											@if (itemProducts[item.productId]?.images?.length) {
-												<img [src]="itemProducts[item.productId]!.images[0].imageUrl" alt="Product" class="product-image">
+												<img [src]="itemProducts[item.productId]!.images[0].imageUrl" alt="Product" class="product-image" (click)="goToProduct(item.productId)" style="cursor:pointer">
 											} @else {
 												<div class="placeholder bg-light rounded product-image"></div>
 											}
 										</div>
 										<div class="col-md-4">
-											<h6 class="mb-1">{{ itemProducts[item.productId]?.productName || 'Loading...' }}</h6>
+											<h6 class="mb-1"><span (click)="goToProduct(item.productId)" style="cursor:pointer">{{ itemProducts[item.productId]?.productName || 'Loading...' }}</span></h6>
 											<p class="text-muted mb-0 small">{{ itemProducts[item.productId]?.description }}</p>
 										</div>
 										<div class="col-md-2 text-center">

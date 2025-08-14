@@ -4,7 +4,7 @@
   <div class="bottom-info">
     <div class="product-information">
       <p class="product-name">{{ product().productName }}</p>
-      <p class="product-price">{{ product().price | currency:'USD':'code' }}</p>
+      <p class="product-price">{{ product().afterTaxPrice| currency:'USD':'code' }}</p>
     </div>
     <button class="cart-button" (click)="addProductToCart($event)">
       <mat-icon>shopping_cart</mat-icon>

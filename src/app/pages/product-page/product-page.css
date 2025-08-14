@@ -34,3 +34,9 @@
     bottom: 15%;
     left: 10%;
 }
+.product-price-before{
+    font-weight: 400;
+    font-size:15;
+    line-height: 100%;
+    color: #7A997C;
+}
