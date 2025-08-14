@@ -1,0 +1,33 @@
+/* Improve contrast / readability for installment toggle button */
+.installment-btn.btn-warning {
+	color: #2d2500; /* dark text for contrast */
+	background-color: #ffd24d;
+	border-color: #f6c437;
+	font-weight: 600;
+}
+.installment-btn.btn-warning:hover {
+	background-color: #ffc738;
+	border-color: #e5b326;
+	color: #1f1a00;
+}
+
+.installment-btn.btn-outline-warning {
+	color: #b88700; /* darker text than default */
+	border-color: #f6c437;
+	font-weight: 600;
+}
+.installment-btn.btn-outline-warning:hover {
+	color: #2d2500;
+	background-color: #ffe9a3;
+	border-color: #f6c437;
+}
+
+/* Compact sizing tweak */
+.installment-btn {
+	line-height: 1.1;
+	padding: 0.35rem 0.7rem;
+}
+
+/* Installment table adjustments */
+.table-installments th, .table-installments td { vertical-align: middle; }
+.table-installments .actions-col { width: 1%; white-space: nowrap; }
