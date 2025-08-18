@@ -28,6 +28,15 @@ export class ProductService {
   }
 
   /**
+   * Search products by keyword
+   * GET /api/v1/products/search/{keyword}
+   */
+  searchProducts(keyword: string): Observable<ProductResponse[]> {
+    if(!keyword) return this.getAllProducts();
+    return this.http.get<ProductResponse[]>(`${this.API_URL}/search/${encodeURIComponent(keyword)}`);
+  }
+
+  /**
    * Get a single product by ID
    * GET /api/v1/products/{id}
    */
