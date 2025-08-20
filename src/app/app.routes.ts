@@ -11,6 +11,7 @@ import { AddCategoryPage } from './pages/add-category-page/add-category-page';
 import { OrderPage } from './pages/order/order';
 import { OrderHistory } from './pages/order-history/order-history';
 import { PayInstallment } from './pages/pay-installment/pay-installment';
+import { Search } from './pages/search/search';
 
 export const routes: Routes = [
     {
@@ -70,5 +71,10 @@ export const routes: Routes = [
         component:PayInstallment,
         title:'Pay Installment'
     },
+    {
+        path:'search',
+        component:Search,
+        title:"Vetra"
+    }
 
 ];

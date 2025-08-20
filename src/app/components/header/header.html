@@ -2,7 +2,7 @@
 <div class="container-d">
   <div><p class="site-name">VETRA</p>
   </div>
-   <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-container">
+   <form [formGroup]="searchForm" (ngSubmit)="search()" class="search-container">
     <div class="search-input-wrapper">
       <mat-icon>search</mat-icon>
       <input type="text" placeholder="Search" formControlName="search"/>

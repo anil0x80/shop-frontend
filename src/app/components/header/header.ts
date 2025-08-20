@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import {FormControl, ReactiveFormsModule,FormGroup,FormBuilder} from '@angular/forms';
+import {FormControl, ReactiveFormsModule,FormGroup,FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../services/auth-service';
@@ -24,7 +24,7 @@ export class Header {
   
 
   searchForm = this.formBuilder.group({
-    search:['']
+    search:['',Validators.required]
   })
 
   cartTotalPrice = signal<number>(0);
@@ -69,10 +69,17 @@ export class Header {
     }, 0);
   }
 
-  onSubmit(){
-    console.log(this.searchForm.value.search)
-  }
   reDirect(route:string){
     this.router.navigate([route])
+  }
+
+  search(){
+    if(this.searchForm.valid){
+      this.router.navigate(['/search'],{
+        queryParams:{
+          search:this.searchForm.get('search')?.value
+        }
+      })
+    }
   }
 }

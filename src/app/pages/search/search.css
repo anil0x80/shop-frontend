@@ -1,0 +1,13 @@
+.row.g-4 > div app-product-card {	
+	display: flex;
+}
+
+app-product-card .product-information {
+	align-items: center;
+	text-align: center;
+}
+
+app-product-card .product-name,
+app-product-card .product-price {
+	color: #0f7d20;
+}
