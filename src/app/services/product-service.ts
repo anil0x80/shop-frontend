@@ -4,9 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  CreateProductRequest,
-  UpdateProductRequest,
-  ProductResponse
+  ProductResponse, CreateProductPayload, UpdateProductPayload
 } from '../models/product.model';
 import {environment} from '../../environments/environment';
 
@@ -39,16 +37,27 @@ export class ProductService {
    * Create a new product
    * POST /api/v1/products
    */
-  createProduct(request: CreateProductRequest): Observable<ProductResponse> {
-    return this.http.post<ProductResponse>(this.API_URL, request);
+  createProduct(payload: CreateProductPayload, files: File[] = []): Observable<ProductResponse> {
+    const form = new FormData();
+    form.append('product', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+    for (const f of files) form.append('images', f); // matches @RequestPart("images")
+    return this.http.post<ProductResponse>(this.API_URL, form);
   }
 
   /**
    * Update an existing product
    * PUT /api/v1/products
    */
-  updateProduct(request: UpdateProductRequest): Observable<ProductResponse> {
-    return this.http.put<ProductResponse>(this.API_URL, request);
+  updateProduct(
+    payload: UpdateProductPayload,
+    newFiles: File[] = [],
+    removeImageIds: string[] = []
+  ): Observable<ProductResponse> {
+    const form = new FormData();
+    form.append('product', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+    for (const f of newFiles) form.append('newImages', f); // matches @RequestPart("newImages")
+    for (const id of removeImageIds) form.append('removeImageIds', id); // matches @RequestParam
+    return this.http.put<ProductResponse>(this.API_URL, form);
   }
 
   /**

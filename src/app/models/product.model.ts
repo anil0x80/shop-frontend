@@ -1,22 +1,21 @@
-import { ProductImageRequest, ProductImageResponse } from '../models/product-image.model';
+// models/product.model.ts
+import { ProductImageResponse } from '../models/product-image.model';
 
-export interface CreateProductRequest {
+export interface CreateProductPayload {
   productName: string;
   price: number;
   categoryId: string;
   description: string;
   stock: number;
-  imageUrls: ProductImageRequest[];
 }
 
-export interface UpdateProductRequest {
+export interface UpdateProductPayload {
   id: string;
   productName?: string;
   price?: number;
   categoryId?: string;
   description?: string;
   stock?: number;
-  imageUrls?: ProductImageRequest[];
 }
 
 export interface ProductResponse {
